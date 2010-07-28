@@ -79,6 +79,7 @@ publish() {
     # add a record
     curl http://gist.github.com/api/v1/yaml/$gist_id >> $gisthome/gists.list
     # clone
+    cd $gisthome
     git clone git@gist.github.com:$gist_id.git
 }
 
