@@ -16,7 +16,7 @@ help() {
 cat<<'END'
 gister  -- shell script to access http://gist.github.com
 
-gister file.txt|OPTION
+gister [OPTION] file.txt
 
 Options:
 -a    clone all your public gists
@@ -25,16 +25,19 @@ Options:
 
 Usage:
 
-Run `gist -l` and all the info will be saved in gists.list.  There are two
+Run `gister -l` and all the info will be saved in gists.list.  There are two
 ways to set up the location of gists.list:  Using env var GIST_HOME or
 set the gist.home option using git-config.  Refer gist(ruby) manual on how
 to set up GitHub user.
 
-`gist -a` require the gists.list file.  gists will be cloned in the same
+`gister -a` require the gists.list file.  gists will be cloned in the same
 directory as gists.list's.
 
-`gist file.txt` will create the gist, record its metainfo in gists.list
+`gister file.txt`  will create the gist, record its metainfo in gists.list
 and clone the gist repo.
+
+Since we just pass arguments to gist.rb, it's possible to use
+`gister -t ext file`, or `echo 'hello' | gister`.    
 
 Depends:
 - gist (ruby http://github.com/defunkt/gist)
@@ -50,7 +53,7 @@ case $1 in
     -l)     fetch_list;;
     -a)     clone_my_gists;;
     -h)     help;;
-     *)     publish $1;;
+     *)     publish $*;;
 esac
 }
 
@@ -70,13 +73,13 @@ clone_my_gists() {
 }
 
 publish() {
-    local gist_file=$1
+    local gist_argv=$*
     # post and get the id
-    local gist_id=`gist $gist_file | grep -o -E '[0-9]+'`
+    local gist_id=`gist $gist_argv | grep -o -E '[0-9]+'`
     # add a record
     curl http://gist.github.com/api/v1/yaml/$gist_id >> $gisthome/gists.list
     # clone
     git clone git@gist.github.com:$gist_id.git
 }
 
-main $1
+main $*
