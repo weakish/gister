@@ -8,6 +8,7 @@
 # github API: http://develop.github.com/p/general.html
 # gist API: http://develop.github.com/p/gist.html
 # gist.rb: http://github.com/defunkt/gist
+# gist clients: http://gist.github.com/370230
 
 
 
