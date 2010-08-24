@@ -27,7 +27,7 @@ Usage:
 
 Run `gister -l` and all the info will be saved in gists.list.  There are two
 ways to set up the location of gists.list:  Using env var GIST_HOME or
-set the gist.home option using git-config.  Refer gist(ruby) manual on how
+set the gist.home option using git config.  Refer gist(ruby) manual on how
 to set up GitHub user.
 
 `gister -a` require the gists.list file.  gists will be cloned in the same
@@ -47,7 +47,7 @@ END
 }
 
 main() {
-gisthome=${GIST_HOME:=`git-config --get gist.home`}
+gisthome=${GIST_HOME:=`git config --get gist.home`}
 
 case $1 in
     -l)     fetch_list;;
@@ -59,7 +59,7 @@ esac
 
 
 fetch_list() {
-    curl http://gist.github.com/api/v1/yaml/gists/${GITHUB_USER:=`git-config --get github.user`} >> $gisthome/gists.list
+    curl http://gist.github.com/api/v1/yaml/gists/${GITHUB_USER:=`git config --get github.user`} >> $gisthome/gists.list
 }
     
 clone_my_gists() {
@@ -69,7 +69,7 @@ clone_my_gists() {
     grep -o -E '[0-9]+' |
     sed -r -e 's/^/git@gist\.github\.com:/' |
     sed -r -e 's/$/\.git/' |
-    xargs -0 echo #git clone # require -0 since newlines
+    xargs -0 git clone # require -0 since newlines
 }
 
 publish() {
