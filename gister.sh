@@ -2,7 +2,7 @@
 
 ### a command line tool to access http://gist.github.com
 
-## by weakish <weakish@gmail.com> and licensed under GPL v2
+## by Jakukyo Friel <weakish@gmail.com> and licensed under GPL v2
 
 ## Ref:
 # github API: http://develop.github.com/p/general.html
@@ -16,7 +16,7 @@ help() {
 cat<<'END'
 gister  -- shell script to access http://gist.github.com
 
-gister [OPTION] file.txt
+gister [OPTION] file.txt [morefile]
 
 Options:
 -a    clone all your public gists
