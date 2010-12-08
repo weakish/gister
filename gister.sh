@@ -33,8 +33,8 @@ to set up GitHub user.
 `gister -a` require the gists.list file.  gists will be cloned in the same
 directory as gists.list's.
 
-`gister file.txt`  will create the gist, record its metainfo in gists.list
-and clone the gist repo.
+`gister file.txt`  will create the gist, record its metainfo in gists.list,
+clone the gist repo, and open the url in your `x-www-browser`.
 
 Since we just pass arguments to gist.rb, it's possible to use
 `gister -t ext file`, or `echo 'hello' | gister`.    
@@ -81,6 +81,8 @@ publish() {
     # clone
     cd $gisthome
     git clone git@gist.github.com:$gist_id.git
+    # open the gist in browser
+    x-www-browser https://gist.github.com/$gist_id
 }
 
 main $*
