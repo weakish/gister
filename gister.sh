@@ -85,4 +85,4 @@ publish() {
     x-www-browser https://gist.github.com/$gist_id
 }
 
-main $*
+main "$@"
