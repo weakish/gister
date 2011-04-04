@@ -10,7 +10,9 @@
 # gist.rb: http://github.com/defunkt/gist
 # gist clients: http://gist.github.com/370230
 
+## Versions
 
+semver=0.0.0 # released on 2011-04-04
 
 help() {
 cat<<'END'
@@ -19,9 +21,12 @@ gister  -- shell script to access http://gist.github.com
 gister [OPTION] file.txt [morefile]
 
 Options:
--a    clone all your public gists
--l    get info of all your public gists
--h    this help page
+-a          clone all your public gists
+-l          get info of all your public gists
+-s pattern  code search (command line)
+-s          code search (open a web browser)
+-v          version
+-h          this help page
 
 Usage:
 
@@ -50,16 +55,18 @@ main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
 
 case $1 in
-    -l)     fetch_list;;
     -a)     clone_my_gists;;
     -h)     help;;
+    -l)     fetch_list;;
+    -s)     code_search $2;;
+    -v)     echo $semver;;
      *)     publish $*;;
 esac
 }
 
 
 fetch_list() {
-    curl http://gist.github.com/api/v1/yaml/gists/${GITHUB_USER:=`git config --get github.user`} >> $gisthome/gists.list
+    curl http://gist.github.com/api/v1/json/gists/${GITHUB_USER:=`git config --get github.user`} >> $gisthome/gists.list
 }
     
 clone_my_gists() {
@@ -77,12 +84,30 @@ publish() {
     # post and get the id
     local gist_id=`gist $gist_argv | grep -o -E '[0-9]+'`
     # add a record
-    curl http://gist.github.com/api/v1/yaml/$gist_id >> $gisthome/gists.list
+    curl http://gist.github.com/api/v1/json/$gist_id >> $gisthome/gists.list
     # clone
     cd $gisthome
     git clone git@gist.github.com:$gist_id.git
+    # import into gonzui search
+    gonzui-import --exclude='\.git' $gist_id 
     # open the gist in browser
     x-www-browser https://gist.github.com/$gist_id
+}
+
+code_search() {
+  cd $gisthome
+  if [ -z $1 ]; then
+    # If gonzui-server finds out that address is already binded when
+    # starting up, it will stop automatically.
+    # So no need to detect if gonzui-server is already running in
+    # our script.
+    gonzui-server &
+    # wait for gonzui-server to start up
+    sleep 2
+    x-www-browser http://localhost:46984
+  else
+    gonzui-search -e $1
+  fi  
 }
 
 main "$@"
