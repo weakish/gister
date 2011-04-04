@@ -12,7 +12,7 @@
 
 ## Versions
 
-semver=0.0.1 devel # released on
+semver='0.0.1 devel' # released on
   # - record descriptions
   # - bugfix: implement clone properly (yaml -> json)
 
@@ -76,8 +76,8 @@ fetch_list() {
 clone_my_gists() {
 # public gists only due to API limit
     cd $gisthome
-    grep -E '"repo":"[0-9]+"' gists.list |
-    grep -o -E '[0-9]+' |
+    grep -oE '"repo":"[0-9]+"' gists.list |
+    grep -oE '[0-9]+' |
     sed -r -e 's/^/git@gist\.github\.com:/' |
     sed -r -e 's/$/\.git/' |
     xargs -0 git clone # require -0 since newlines
