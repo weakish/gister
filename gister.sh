@@ -12,7 +12,7 @@
 
 ## Versions
 
-semver='0.0.1 devel' # released on
+semver='0.1.0 devel' # released on
   # - record descriptions
   # - bugfix: implement clone properly (yaml -> json)
 
@@ -43,7 +43,8 @@ to set up GitHub user.
 directory as gists.list's.
 
 `gister file.txt`  will create the gist, record its metainfo in gists.list,
-clone the gist repo, and open the url in your `x-www-browser`.
+clone the gist repo, open the url in your `x-www-browser`,
+and update your navigation page.
 
 Since we just pass arguments to gist.rb, it's possible to use
 `gister -t ext file`, or `echo 'hello' | gister`.    
@@ -52,11 +53,15 @@ Depends:
 - gist (ruby http://github.com/defunkt/gist)
 - curl
 - git
+- gistnavi.py (https://gist.github.com/492755)
 END
 }
 
 main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
+gist_title=${GIST_TITLE:=`git config --get gist.title`}
+gist_page=${GIST_PAGE:=`git config --get gist.page`}
+github_user=${GITHUB_USER:=`git config --get github.user`}
 
 case $1 in
     -a)     clone_my_gists;;
@@ -70,7 +75,7 @@ esac
 
 
 fetch_list() {
-    curl http://gist.github.com/api/v1/json/gists/${GITHUB_USER:=`git config --get github.user`} > $gisthome/gists.list
+    curl http://gist.github.com/api/v1/json/gists/$github_user > $gisthome/gists.list
 }
     
 clone_my_gists() {
@@ -98,6 +103,8 @@ publish() {
     git clone git@gist.github.com:$gist_id.git
     # import into gonzui search
     gonzui-import --exclude='\.git' $gist_id 
+    # update your gist navigation page
+    gistnavi $gist_title $github_user > $gist_page
     # open the gist in browser
     x-www-browser https://gist.github.com/$gist_id
 }
