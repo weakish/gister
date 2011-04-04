@@ -12,7 +12,11 @@
 
 ## Versions
 
-semver=0.0.0 # released on 2011-04-04
+semver=0.0.1 devel # released on
+  # - record descriptions
+  # - bugfix: implement clone properly (yaml -> json)
+
+# semver=0.0.0 # released on 2011-04-04
 
 help() {
 cat<<'END'
@@ -59,20 +63,20 @@ case $1 in
     -h)     help;;
     -l)     fetch_list;;
     -s)     code_search $2;;
-    -v)     echo $semver;;
+    -v)     echo gister $semver;;
      *)     publish $*;;
 esac
 }
 
 
 fetch_list() {
-    curl http://gist.github.com/api/v1/json/gists/${GITHUB_USER:=`git config --get github.user`} >> $gisthome/gists.list
+    curl http://gist.github.com/api/v1/json/gists/${GITHUB_USER:=`git config --get github.user`} > $gisthome/gists.list
 }
     
 clone_my_gists() {
 # public gists only due to API limit
     cd $gisthome
-    grep -E ':repo: "[0-9]+"' gists.list |
+    grep -E '"repo":"[0-9]+"' gists.list |
     grep -o -E '[0-9]+' |
     sed -r -e 's/^/git@gist\.github\.com:/' |
     sed -r -e 's/$/\.git/' |
@@ -84,9 +88,13 @@ publish() {
     # post and get the id
     local gist_id=`gist $gist_argv | grep -o -E '[0-9]+'`
     # add a record
-    curl http://gist.github.com/api/v1/json/$gist_id >> $gisthome/gists.list
-    # clone
     cd $gisthome
+    # we add the previous gist, and leave current gist to next
+    # time.
+    # Thus we can have description recorded.
+    curl http://gist.github.com/api/v1/json/`cat tip` >> $gisthome/gists.list
+    echo $gist_id > tip
+    # clone
     git clone git@gist.github.com:$gist_id.git
     # import into gonzui search
     gonzui-import --exclude='\.git' $gist_id 
