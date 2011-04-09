@@ -12,9 +12,9 @@
 
 ## Versions
 
-semver='0.1.0 devel' # released on
-  # - record descriptions
+semver='0.1.0devel' # released on
   # - bugfix: implement clone properly (yaml -> json)
+  # - simplify publish()
 
 # semver=0.0.0 # released on 2011-04-04
 
@@ -60,7 +60,7 @@ END
 main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
 gist_title=${GIST_TITLE:=`git config --get gist.title`}
-gist_page=${GIST_PAGE:=`git config --get gist.page`}
+#gist_page=${GIST_PAGE:=`git config --get gist.page`}
 github_user=${GITHUB_USER:=`git config --get github.user`}
 
 case $1 in
@@ -94,17 +94,10 @@ publish() {
     local gist_id=`gist $gist_argv | grep -o -E '[0-9]+'`
     # add a record
     cd $gisthome
-    # we add the previous gist, and leave current gist to next
-    # time.
-    # Thus we can have description recorded.
-    curl http://gist.github.com/api/v1/json/`cat tip` >> $gisthome/gists.list
-    echo $gist_id > tip
     # clone
     git clone git@gist.github.com:$gist_id.git
     # import into gonzui search
     gonzui-import --exclude='\.git' $gist_id 
-    # update your gist navigation page
-    gistnavi $gist_title $github_user > $gist_page
     # open the gist in browser
     x-www-browser https://gist.github.com/$gist_id
 }
