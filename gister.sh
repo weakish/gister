@@ -1,14 +1,14 @@
 #!/bin/sh
 
-### a command line tool to access http://gist.github.com
+### a command line tool to access https://gist.github.com
 
 ## by Jakukyo Friel <weakish@gmail.com> and licensed under GPL v2
 
 ## Ref:
-# github API: http://develop.github.com/p/general.html
-# gist API: http://develop.github.com/p/gist.html
-# gist.rb: http://github.com/defunkt/gist
-# gist clients: http://gist.github.com/370230
+# github API: https://develop.github.com/v3/
+# gist API: https://developer.github.com/v3/gists/
+# pygist: https://github.com/mattikus/pygist
+# gist clients: https://gist.github.com/370230
 
 ## Versions
 
@@ -20,7 +20,7 @@ semver='0.1.0' # released on 2011-06-11
 
 help() {
 cat<<'END'
-gister  -- shell script to access http://gist.github.com
+gister  -- shell script to access https://gist.github.com
 
 gister [OPTION] file.txt [morefile]
 
