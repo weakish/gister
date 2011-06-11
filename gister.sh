@@ -13,7 +13,11 @@
 ## Versions
 
 semver='0.2.0-devel' # released on
+#   - change backend from gist.rb to pygsit
 #   - remove clone_my_gists()
+#   - fetch_list() fetches priveate gists too.
+#   - fix a bug to actually support multiple files
+#   - add support for gist description
 
 # semver='0.1.0' # released on 2011-06-11
 #   - bugfix: implement clone properly (yaml -> json)
@@ -46,29 +50,31 @@ to set up GitHub user.
 clone the gist repo, open the url in your `x-www-browser`,
 and update your navigation page.
 
-Since we just pass arguments to gist.rb, it's possible to use
-`gister -t ext file`, or `echo 'hello' | gister`.    
 
 Depends:
-- gist (ruby http://github.com/defunkt/gist)
+- pygist: https://github.com/mattikus/pygist
 - curl
 - git
-- gistnavi.py (https://gist.github.com/492755)
+
 END
 }
 
 main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
 gist_title=${GIST_TITLE:=`git config --get gist.title`}
-#gist_page=${GIST_PAGE:=`git config --get gist.page`}
 github_user=${GITHUB_USER:=`git config --get github.user`}
+github_token=${GITHUB_TOKEN:=`git config --get github.token`}
 
 case $1 in
     -h)     help;;
     -l)     fetch_list;;
     -s)     code_search $2;;
     -v)     echo gister $semver;;
-     *)     publish $*;;
+    # disable some pygist features
+    -g)     echo 'invalid option `-g`'
+    -p)     echo 'invalid option `-p`'
+    -a)     echo 'invalid option `-a`'
+     *)     publish "$@";;
 esac
 }
 
