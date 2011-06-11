@@ -18,6 +18,7 @@ semver='0.2.0-devel' # released on
 #   - fetch_list() fetches priveate gists too.
 #   - fix a bug to actually support multiple files
 #   - add support for gist description
+#   - add gistid to pasteboard
 
 # semver='0.1.0' # released on 2011-06-11
 #   - bugfix: implement clone properly (yaml -> json)
@@ -48,7 +49,8 @@ to set up GitHub user.
 
 
 `gister description file.txt`  will create the gist with the provided description,
-clone the gist repo, and open the url in your `x-www-browser`.
+clone the gist repo, put the gistid to clipborad, and open the url in
+your `x-www-browser`.
 
 
 Depends:
@@ -98,6 +100,8 @@ publish() {
     gonzui-import --exclude='\.git' $gist_id 
     # open the gist in browser
     x-www-browser https://gist.github.com/$gist_id
+    # add gistid to pasteboard
+    echo $gist_id | xsel
 }
 
 
