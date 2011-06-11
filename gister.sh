@@ -12,7 +12,7 @@
 
 ## Versions
 
-semver='0.1.0devel' # released on
+semver='0.1.0' # released on 2011-06-11
   # - bugfix: implement clone properly (yaml -> json)
   # - simplify publish()
 
