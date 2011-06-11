@@ -12,9 +12,12 @@
 
 ## Versions
 
-semver='0.1.0' # released on 2011-06-11
-  # - bugfix: implement clone properly (yaml -> json)
-  # - simplify publish()
+semver='0.2.0-devel' # released on
+#   - remove clone_my_gists()
+
+# semver='0.1.0' # released on 2011-06-11
+#   - bugfix: implement clone properly (yaml -> json)
+#   - simplify publish()
 
 # semver=0.0.0 # released on 2011-04-04
 
@@ -25,7 +28,6 @@ gister  -- shell script to access https://gist.github.com
 gister [OPTION] file.txt [morefile]
 
 Options:
--a          clone all your public gists
 -l          get info of all your public gists
 -s pattern  code search (command line)
 -s          code search (open a web browser)
@@ -39,8 +41,6 @@ ways to set up the location of gists.list:  Using env var GIST_HOME or
 set the gist.home option using git config.  Refer gist(ruby) manual on how
 to set up GitHub user.
 
-`gister -a` require the gists.list file.  gists will be cloned in the same
-directory as gists.list's.
 
 `gister file.txt`  will create the gist, record its metainfo in gists.list,
 clone the gist repo, open the url in your `x-www-browser`,
@@ -64,7 +64,6 @@ gist_title=${GIST_TITLE:=`git config --get gist.title`}
 github_user=${GITHUB_USER:=`git config --get github.user`}
 
 case $1 in
-    -a)     clone_my_gists;;
     -h)     help;;
     -l)     fetch_list;;
     -s)     code_search $2;;
@@ -78,15 +77,6 @@ fetch_list() {
     curl http://gist.github.com/api/v1/json/gists/$github_user > $gisthome/gists.list
 }
     
-clone_my_gists() {
-# public gists only due to API limit
-    cd $gisthome
-    grep -oE '"repo":"[0-9]+"' gists.list |
-    grep -oE '[0-9]+' |
-    sed -r -e 's/^/git@gist\.github\.com:/' |
-    sed -r -e 's/$/\.git/' |
-    xargs -0 git clone # require -0 since newlines
-}
 
 publish() {
     local gist_argv=$*
