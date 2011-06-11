@@ -29,7 +29,8 @@ help() {
 cat<<'END'
 gister  -- shell script to access https://gist.github.com
 
-gister [OPTION] file.txt [morefile]
+gister [OPTION]
+gister description file.txt [file ...]
 
 Options:
 -l          get info of all your public gists
@@ -46,9 +47,8 @@ set the gist.home option using git config.  Refer gist(ruby) manual on how
 to set up GitHub user.
 
 
-`gister file.txt`  will create the gist, record its metainfo in gists.list,
-clone the gist repo, open the url in your `x-www-browser`,
-and update your navigation page.
+`gister description file.txt`  will create the gist with the provided description,
+clone the gist repo, and open the url in your `x-www-browser`.
 
 
 Depends:
@@ -80,15 +80,17 @@ esac
 
 
 fetch_list() {
-    curl http://gist.github.com/api/v1/json/gists/$github_user > $gisthome/gists.list
+    curl -H "Authorization: token $github_token" https://api.github.com/users/$github_user/gists > $gisthome/gists.list
 }
     
 
 publish() {
-    local gist_argv=$*
+    gist_description="$1"
+    shift 1
+    local gist_argv="$@"
     # post and get the id
-    local gist_id=`gist $gist_argv | grep -o -E '[0-9]+'`
-    # add a record
+    local gist_id=`pygist -d $gist_description $gist_argv | grep -o -E '[0-9]+'`
+    # TODO add a record
     cd $gisthome
     # clone
     git clone git@gist.github.com:$gist_id.git
