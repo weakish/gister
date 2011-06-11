@@ -71,9 +71,9 @@ case $1 in
     -s)     code_search $2;;
     -v)     echo gister $semver;;
     # disable some pygist features
-    -g)     echo 'invalid option `-g`'
-    -p)     echo 'invalid option `-p`'
-    -a)     echo 'invalid option `-a`'
+    -g)     echo 'invalid option `-g`';;
+    -p)     echo 'invalid option `-p`';;
+    -a)     echo 'invalid option `-a`';;
      *)     publish "$@";;
 esac
 }
@@ -85,11 +85,11 @@ fetch_list() {
     
 
 publish() {
-    gist_description="$1"
+    local gist_description="$1"
     shift 1
     local gist_argv="$@"
     # post and get the id
-    local gist_id=`pygist -d $gist_description $gist_argv | grep -o -E '[0-9]+'`
+    local gist_id=`pygist -d "$gist_description" $gist_argv | grep -o -E '[0-9]+'`
     # TODO add a record
     cd $gisthome
     # clone
@@ -99,6 +99,7 @@ publish() {
     # open the gist in browser
     x-www-browser https://gist.github.com/$gist_id
 }
+
 
 code_search() {
   cd $gisthome
