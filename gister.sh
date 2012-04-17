@@ -4,6 +4,12 @@
 
 ## by Jakukyo Friel <weakish@gmail.com> and licensed under GPL v2
 
+## Depends:
+# pygist: https://github.com/mattikus/pygist
+# curl
+# git
+# gonzui
+
 ## Ref:
 # github API: https://develop.github.com/v3/
 # gist API: https://developer.github.com/v3/gists/
@@ -12,7 +18,7 @@
 
 ## Versions
 
-semver='0.2.0-devel' # released on
+semver='0.2.0' # released on 2012-04-17
 #   - change backend from gist.rb to pygsit
 #   - remove clone_my_gists()
 #   - fetch_list() fetches priveate gists too.
@@ -47,16 +53,9 @@ ways to set up the location of gists.list:  Using env var GIST_HOME or
 set the gist.home option using git config.  Refer gist(ruby) manual on how
 to set up GitHub user.
 
-
 `gister description file.txt`  will create the gist with the provided description,
 clone the gist repo, put the gistid to clipborad, and open the url in
 your `x-www-browser`.
-
-
-Depends:
-- pygist: https://github.com/mattikus/pygist
-- curl
-- git
 
 END
 }
