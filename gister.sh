@@ -5,7 +5,7 @@
 ## by Jakukyo Friel <weakish@gmail.com> and licensed under GPL v2
 
 ## Depends:
-# pygist: https://github.com/mattikus/pygist
+# gist.rb
 # curl
 # git
 # gonzui
@@ -13,12 +13,15 @@
 ## Ref:
 # github API: https://develop.github.com/v3/
 # gist API: https://developer.github.com/v3/gists/
-# pygist: https://github.com/mattikus/pygist
+# gist.rb: https://github.com/defunkt/gist
 # gist clients: https://gist.github.com/370230
 
 ## Versions
+semver='0.3.0' # released on
+#   - change backend back to gist.rb
+#   - fetch_list() fetches public gists only.
 
-semver='0.2.0' # released on 2012-04-17
+# semver='0.2.0' # released on 2012-04-17
 #   - change backend from gist.rb to pygsit
 #   - remove clone_my_gists()
 #   - fetch_list() fetches priveate gists too.
@@ -48,7 +51,7 @@ Options:
 
 Usage:
 
-Run `gister -l` and all the info will be saved in gists.list.  There are two
+Run `gister -l` and a list of your public gists will be saved in gists.list.  There are two
 ways to set up the location of gists.list:  Using env var GIST_HOME or
 set the gist.home option using git config.  Refer gist(ruby) manual on how
 to set up GitHub user.
@@ -64,24 +67,19 @@ main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
 gist_title=${GIST_TITLE:=`git config --get gist.title`}
 github_user=${GITHUB_USER:=`git config --get github.user`}
-github_token=${GITHUB_TOKEN:=`git config --get github.token`}
 
 case $1 in
     -h)     help;;
     -l)     fetch_list;;
     -s)     code_search $2;;
     -v)     echo gister $semver;;
-    # disable some pygist features
-    -g)     echo 'invalid option `-g`';;
-    -p)     echo 'invalid option `-p`';;
-    -a)     echo 'invalid option `-a`';;
      *)     publish "$@";;
 esac
 }
 
 
 fetch_list() {
-    curl -H "Authorization: token $github_token" https://api.github.com/users/$github_user/gists > $gisthome/gists.list
+    curl https://api.github.com/users/$github_user/gists > $gisthome/gists.list
 }
     
 
@@ -90,7 +88,7 @@ publish() {
     shift 1
     local gist_argv="$@"
     # post and get the id
-    local gist_id=`pygist -d "$gist_description" $gist_argv | grep -o -E '[0-9]+'`
+    local gist_id=`gist -d "$gist_description" $gist_argv | grep -o -E '[0-9]+'`
     # TODO add a record
     cd $gisthome
     # clone
