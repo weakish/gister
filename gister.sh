@@ -17,9 +17,11 @@
 # gist clients: https://gist.github.com/370230
 
 ## Versions
-semver='0.3.0' # released on
-#   - change backend back to gist.rb
-#   - fetch_list() fetches public gists only.
+semver='0.3.0' # released on 2012-05-04
+#   - Change backend back to gist.rb, since pygist stops to work due to api change.
+#   - fetch_list() fetches public gists only. 
+#     (I myself only creates public gists. So I'm too lazy to deal with
+#     new oauth api. Patches are welcomed.)
 
 # semver='0.2.0' # released on 2012-04-17
 #   - change backend from gist.rb to pygsit
