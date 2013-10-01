@@ -111,9 +111,10 @@ fetch_list() {
     
 
 publish() {
-    local gist_description="$1"
+    local gist_description gist_argv
+    gist_description="$1"
     shift 1
-    local gist_argv="$@"
+    gist_argv=$@
     # post gist and open it in browser
     gist -c -o -d "$gist_description" $gist_argv
     # record the id
