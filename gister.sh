@@ -101,8 +101,8 @@ fetch_list() {
     mv $gisthome/gists.list $gisthome/gists.list.backup
     curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' > $gisthome/gists.list
     for i in `seq 2 100000`; do
-      if ! (curl -s -H 'Authorization: token 1928954e4f8b569c207f25c1f4efa2943b26c392'  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
-        curl -s -H 'Authorization: token 1928954e4f8b569c207f25c1f4efa2943b26c392'  "https://api.github.com/gists?page=$i&per_page=100" >> $gisthome/gists.list
+      if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
+        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" >> $gisthome/gists.list
       else
         break
       fi
