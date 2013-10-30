@@ -70,10 +70,9 @@ help            this help page
 
 Usage:
 
-Run `gister list` and a list of your gists will be saved in gists.list.  There are two
-ways to set up the location of gists.list:  Using env var GIST_HOME or
-set the gist.home option using git config.  Refer gist(ruby) manual on how
-to set up GitHub user.
+`gister init` will associate your gists with your GitHub account and ask you where to store local copies of your gist.
+
+Run `gister list` and a list of your gists will be saved in gists.list.
 
 `gister description file.txt ...`  will create the gist with the provided description,
 clone the gist repo, put the gistid to clipborad, and open the url in
@@ -86,15 +85,14 @@ END
 
 main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
-gist_title=${GIST_TITLE:=`git config --get gist.title`}
-github_user=${GITHUB_USER:=`git config --get github.user`}
 github_oauth_token=`cat $HOME/.gist`
 
 case $1 in
     help)       help;;
     list)       fetch_list;;
-    migrate)    migrate;;
     search)     code_search $2;;
+    init)       init;;
+    migrate)    migrate;;
     version)    echo gister $semver;;
     *)          publish "$@";;
 esac
@@ -146,6 +144,16 @@ code_search() {
   csearch -i -l -n $1
 }
 
+init() {
+  echo 'Where do you want to store local copies of your gists?'
+  read -p 'Enter full path to the directroy: ' gist_store_directory
+  git config gist.home $gist_store_directory
+  echo "Your gists will be stored at $gist_store_directory"
+  echo 'You can overwrite this using environment variable $GIST_HOME'
+  echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
+  echo 'We will not store your password.'
+  gist --login
+}
 
 migrate() {
   # migrate to new storage
