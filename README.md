@@ -74,7 +74,7 @@ Storage
     `-- .csearchindex # code search index
 
 
-Contriubte
+Contribute
 ----------
 
 Fork and/or send pull requests or issues on github: https://github.com/weakish/gister
