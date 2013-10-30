@@ -119,20 +119,25 @@ publish() {
     local gist_description gist_argv
     gist_description="$1"
     shift 1
-    gist_argv=$@
-    # post gist and open it in browser
-    gist -c -o -d "$gist_description" $gist_argv
-    # record the id
-    local gist_id=`xsel -o | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///'`
-    # add a record
-    cd $gisthome
-    curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list
-    # clone
-    cd $gisthome/tree
-    git clone git@gist.github.com:$gist_id.git --separate-git-dir ../repo/$gist_id
-    # code search index
-    export CSEARCHINDEX=$gisthome/.csearchindex
-    cindex
+    if [ $# -eq 0 ]; then
+      help
+    else
+      gist_argv=$@
+
+      # post gist and open it in browser
+      gist -c -o -d "$gist_description" $gist_argv
+      # record the id
+      local gist_id=`xsel -o | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///'`
+      # add a record
+      cd $gisthome
+      curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list
+      # clone
+      cd $gisthome/tree
+      git clone git@gist.github.com:$gist_id.git --separate-git-dir ../repo/$gist_id
+      # code search index
+      export CSEARCHINDEX=$gisthome/.csearchindex
+      cindex
+    fi
 }
 
 
