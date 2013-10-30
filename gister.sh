@@ -20,7 +20,12 @@
 
 ## Versions
 
-semver='1.0.0' # released on 2013-09-16
+# semver='2.0.0' # released on 2013-10-30
+#   - redesign UI
+#   - add init function
+#   - improve documentation
+
+# semver='1.0.0' # released on 2013-09-16
 #   - Use new storage hierarchy (seperate work tree and repo)
 #   - Support github OAuth.
 #   - Fetch all gists of the user (including private ones).
@@ -53,19 +58,19 @@ help() {
 cat<<'END'
 gister  -- shell script to access https://gist.github.com
 
-gister [OPTION]
+gister [ACTION]
 gister description file.txt [...]
 
-Options:
--l          get info of all your gists
--m          migrate from <1.0.0
--s regexp   code search (command line)
--v          version
--h          this help page
+Actions:
+list            get info of all your gists
+migrate         migrate from <1.0.0
+search regexp   code search (command line)
+version         version
+help            this help page
 
 Usage:
 
-Run `gister -l` and a list of your gists will be saved in gists.list.  There are two
+Run `gister list` and a list of your gists will be saved in gists.list.  There are two
 ways to set up the location of gists.list:  Using env var GIST_HOME or
 set the gist.home option using git config.  Refer gist(ruby) manual on how
 to set up GitHub user.
@@ -86,12 +91,12 @@ github_user=${GITHUB_USER:=`git config --get github.user`}
 github_oauth_token=`cat $HOME/.gist`
 
 case $1 in
-    -h)     help;;
-    -l)     fetch_list;;
-    -m)     migrate;;
-    -s)     code_search $2;;
-    -v)     echo gister $semver;;
-     *)     publish "$@";;
+    help)       help;;
+    list)       fetch_list;;
+    migrate)    migrate;;
+    search)     code_search $2;;
+    version)    echo gister $semver;;
+    *)          publish "$@";;
 esac
 }
 
