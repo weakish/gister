@@ -20,9 +20,10 @@
 
 ## Versions
 
-# semver='2.0.0' # released on 2013-10-30
+semver='2.0.0' # released on 2013-10-30
 #   - redesign UI
 #   - add init function
+#   - replace fetch_list() with fetchall(), which fetches all your gists.
 #   - improve documentation
 
 # semver='1.0.0' # released on 2013-09-16
@@ -62,7 +63,7 @@ gister [ACTION]
 gister description file.txt [...]
 
 Actions:
-list            get info of all your gists
+fetchall        fetch all your gists
 migrate         migrate from <1.0.0
 search regexp   code search (command line)
 version         version
@@ -72,12 +73,12 @@ Usage:
 
 `gister init` will associate your gists with your GitHub account and ask you where to store local copies of your gist.
 
-Run `gister list` and a list of your gists will be saved in gists.list.
+Run `gister fetchall` to fetch all your gists.
 
 `gister description file.txt ...`  will create the gist with the provided description,
 clone the gist repo, put the gistid to clipborad, and open the url in
 your `x-www-browser`.
-`gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you use other options that gist understands,
+`gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands,
 e.g. `gister descrption -P` will work.
 
 END
@@ -89,7 +90,7 @@ github_oauth_token=`cat $HOME/.gist`
 
 case $1 in
     help)       help;;
-    list)       fetch_list;;
+    fetchall)   fetchall;;
     search)     code_search $2;;
     init)       init;;
     migrate)    migrate;;
@@ -99,7 +100,7 @@ esac
 }
 
 
-fetch_list() {
+fetchall() {
     echo 'I can only fetch up to 10 million gists for you.'
     mv $gisthome/gists.list $gisthome/gists.list.backup
     curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' > $gisthome/gists.list
@@ -110,6 +111,13 @@ fetch_list() {
         break
       fi
     done
+    cd $gisthome/tree
+    cat $gisthome/gists.list |
+    grep -F '"git_pull_url":' |
+    grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
+    sed 's/^/git@/' |
+    xargs -I '{}' git clone '{}'
+    migrate
 }
     
 
@@ -131,7 +139,7 @@ publish() {
       curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list
       # clone
       cd $gisthome/tree
-      git clone git@gist.github.com:$gist_id.git --separate-git-dir ../repo/$gist_id
+      git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
       # code search index
       export CSEARCHINDEX=$gisthome/.csearchindex
       cindex
@@ -148,6 +156,7 @@ init() {
   echo 'Where do you want to store local copies of your gists?'
   read -p 'Enter full path to the directroy: ' gist_store_directory
   git config gist.home $gist_store_directory
+  mkdir -p $gist_store_directory/tree $gist_store_directory/repo
   echo "Your gists will be stored at $gist_store_directory"
   echo 'You can overwrite this using environment variable $GIST_HOME'
   echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
@@ -158,9 +167,9 @@ init() {
 migrate() {
   # migrate to new storage
   cd $gisthome
-  mkdir tree
-  ls --file-type --hide gonzui.db --hide tree | grep '/$' | xargs -I '{}' mv '{}' tree
-  mkdir repo
+  mkdir -p tree
+  ls --file-type --hide gonzui.db --hide tree --hide repo | grep '/$' | xargs -I '{}' mv '{}' tree
+  mkdir -p repo
   cd tree
   ls | xargs -I '{}' git init --separate-git-dir ../repo/'{}' '{}'
 
