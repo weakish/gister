@@ -9,6 +9,7 @@
 # git
 # csearch
 # jq
+# xclip|xsel|pbpaste|cygutils-extra
 
 ## Ref:
 # github API: https://develop.github.com/v3/
@@ -20,7 +21,11 @@
 
 ## Versions
 
-semver='2.0.0' # released on 2013-10-30
+semver='2.0.1' # released on 2013-10-31
+#   - add support for Mac OS X and Cygwin
+#   - add support for xclip
+
+# semver='2.0.0' # released on 2013-10-30
 #   - redesign UI
 #   - add init function
 #   - replace fetch_list() with fetchall(), which fetches all your gists.
@@ -119,7 +124,27 @@ fetchall() {
     xargs -I '{}' git clone '{}'
     migrate
 }
-    
+
+check_command() {
+  to_check_command=$1
+  command -v  $to_check_command >/dev/null 2>&1
+}
+
+get_paste() {
+  # Linux, BSD, etc
+  if check_command  xclip; then
+    xclip -o
+  elif check_command xsel; then
+    xsel -o
+  # Mac OS X
+  elif check_command pbpaste; then
+    pbpaste
+  elif check_command getclip; then
+    getclip
+  else
+    echo 'Error: No clipboard command found!'
+  fi
+}
 
 publish() {
     local gist_description gist_argv
@@ -133,7 +158,7 @@ publish() {
       # post gist and open it in browser
       gist -c -o -d "$gist_description" $gist_argv
       # record the id
-      local gist_id=`xsel -o | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///'`
+      local gist_id=`get_paste | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///'`
       # add a record
       cd $gisthome
       curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list

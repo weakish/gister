@@ -25,6 +25,14 @@ Dependencies
 - [csearch](https://code.google.com/p/codesearch/)
 - [jq](http://stedolan.github.io/jq/)
 
+For Linux, BSD, etc, you also need `xclip` or `xsel`.
+For Cygwin, you need putclip/getclip provided by cygutils-extra.
+(Mas OS X users should be fine with the preinstalled pbcopy/pbpaste.)
+
+Note: There is [a bug in gist bitting xsel users][151]. xsel users can use xclip, or use [my fork of gist][fork].
+
+[151]: https://github.com/defunkt/gist/pull/151
+[fork]: https://raw.github.com/weakish/gist/cbf90e1621752bd5129abe0505072457893bfddc/build/gist
 
 Usage
 -----
