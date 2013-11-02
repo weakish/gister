@@ -21,12 +21,13 @@
 
 ## Versions
 
-#semver='2.0.2' # released on 2013-11-1
+semver='2.0.2' # released on 2013-11-1
+#   Yet another hotfix version.
 #   - remove confusing error message
 #   - init() does not get oauth2 token if already exist.
 #   - init(): `gist.home` should be global. Thanks wenLiangcan.
 
-semver='2.0.1' # released on 2013-10-31
+# semver='2.0.1' # released on 2013-10-31
 #   - add support for Mac OS X and Cygwin
 #   - add support for xclip
 

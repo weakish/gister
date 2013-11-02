@@ -34,6 +34,7 @@ Note: There is [a bug in gist bitting xsel users][151]. xsel users can use xclip
 [151]: https://github.com/defunkt/gist/pull/151
 [fork]: https://raw.github.com/weakish/gist/cbf90e1621752bd5129abe0505072457893bfddc/build/gist
 
+
 Usage
 -----
 
@@ -82,7 +83,15 @@ Storage
     `-- .csearchindex # code search index
 
 
-Contribute
-----------
+Contributing
+------------
 
 Fork and/or send pull requests or issues on github: https://github.com/weakish/gister
+
+
+Packages
+--------
+
+### Arch
+
+[weiLiangcan](https://github.com/wenLiangcan) has packaged `gister` on [AUR](https://aur.archlinux.org/packages/gister/)
