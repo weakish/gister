@@ -21,7 +21,9 @@
 
 ## Versions
 
-semver='2.0.2' # released on 2013-11-1
+semver='2.0.3-alpha' # released on 2013-11-3
+
+# semver='2.0.2' # released on 2013-11-1
 #   Yet another hotfix version.
 #   - remove confusing error message
 #   - init() does not get oauth2 token if already exist.
@@ -97,13 +99,14 @@ END
 }
 
 main() {
-set -e
 gisthome=${GIST_HOME:=`git config --get gist.home`}
 if test -f $HOME/.gist; then
   github_oauth_token=`cat $HOME/.gist`
 else
   echo 'You need a github oauth2 token.'
 fi
+
+set -e
 
 case $1 in
     help)       help;;
