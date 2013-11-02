@@ -21,9 +21,10 @@
 
 ## Versions
 
-#semver='2.0.2' # released on
+#semver='2.0.2' # released on 2013-11-1
 #   - remove confusing error message
 #   - init() does not get oauth2 token if already exist.
+#   - init(): `gist.home` should be global. Thanks wenLiangcan.
 
 semver='2.0.1' # released on 2013-10-31
 #   - add support for Mac OS X and Cygwin
@@ -196,7 +197,7 @@ init() {
   # store
   echo 'Where do you want to store local copies of your gists?'
   read -p 'Enter full path to the directroy: ' gist_store_directory
-  git config gist.home $gist_store_directory
+  git config --global gist.home $gist_store_directory
   mkdir -p $gist_store_directory/tree $gist_store_directory/repo
   echo "Your gists will be stored at $gist_store_directory"
   echo 'You can overwrite this using environment variable $GIST_HOME'
