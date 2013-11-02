@@ -178,15 +178,18 @@ code_search() {
 }
 
 init() {
+  # login
+  echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
+  echo 'We will not store your password.'
+  gist --login
+  echo 'Your GitHub OAuth2 token is stored at ~/.gist'
+  # store
   echo 'Where do you want to store local copies of your gists?'
   read -p 'Enter full path to the directroy: ' gist_store_directory
   git config gist.home $gist_store_directory
   mkdir -p $gist_store_directory/tree $gist_store_directory/repo
   echo "Your gists will be stored at $gist_store_directory"
   echo 'You can overwrite this using environment variable $GIST_HOME'
-  echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
-  echo 'We will not store your password.'
-  gist --login
 }
 
 migrate() {
