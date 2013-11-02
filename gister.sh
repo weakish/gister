@@ -95,6 +95,7 @@ END
 }
 
 main() {
+set -e
 gisthome=${GIST_HOME:=`git config --get gist.home`}
 if test -f $HOME/.gist; then
   github_oauth_token=`cat $HOME/.gist`
@@ -163,7 +164,6 @@ publish() {
       help
     else
       gist_argv=$@
-
       # post gist and open it in browser
       gist -c -o -d "$gist_description" $gist_argv
       # record the id
