@@ -21,6 +21,10 @@
 
 ## Versions
 
+#semver='2.0.2' # released on
+#   - remove confusing error message
+#   - init() does not get oauth2 token if already exist.
+
 semver='2.0.1' # released on 2013-10-31
 #   - add support for Mac OS X and Cygwin
 #   - add support for xclip
@@ -91,7 +95,11 @@ END
 
 main() {
 gisthome=${GIST_HOME:=`git config --get gist.home`}
-github_oauth_token=`cat $HOME/.gist`
+if test -f $HOME/.gist; then
+  github_oauth_token=`cat $HOME/.gist`
+else
+  echo 'You need a github oauth2 token.'
+fi
 
 case $1 in
     help)       help;;
@@ -179,10 +187,12 @@ code_search() {
 
 init() {
   # login
-  echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
-  echo 'We will not store your password.'
-  gist --login
-  echo 'Your GitHub OAuth2 token is stored at ~/.gist'
+  if ! test -f $HOME/.gist; then
+    echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
+    echo 'We will not store your password.'
+    gist --login
+    echo 'Your GitHub OAuth2 token is stored at ~/.gist'
+  fi
   # store
   echo 'Where do you want to store local copies of your gists?'
   read -p 'Enter full path to the directroy: ' gist_store_directory
