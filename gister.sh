@@ -26,6 +26,7 @@ semver='2.0.2' # released on 2013-11-1
 #   - remove confusing error message
 #   - init() does not get oauth2 token if already exist.
 #   - init(): `gist.home` should be global. Thanks wenLiangcan.
+#   - fetchall(): fix a bug that causes git clone to fail.
 
 # semver='2.0.1' # released on 2013-10-31
 #   - add support for Mac OS X and Cygwin
@@ -118,7 +119,9 @@ esac
 
 fetchall() {
     echo 'I can only fetch up to 10 million gists for you.'
-    mv $gisthome/gists.list $gisthome/gists.list.backup
+    if test -f $gisthome/gists.list; then
+      mv $gisthome/gists.list $gisthome/gists.list.backup
+    fi
     curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' > $gisthome/gists.list
     for i in `seq 2 100000`; do
       if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
@@ -132,6 +135,7 @@ fetchall() {
     grep -F '"git_pull_url":' |
     grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
     sed 's/^/git@/' |
+    sed -e 's/com\//com:/' |
     xargs -I '{}' git clone '{}'
     migrate
 }
