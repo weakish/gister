@@ -29,10 +29,9 @@ For Linux, BSD, etc, you also need `xclip` or `xsel`.
 For Cygwin, you need putclip/getclip provided by cygutils-extra.
 (Mas OS X users should be fine with the preinstalled pbcopy/pbpaste.)
 
-Note: There is [a bug in gist bitting xsel users][151]. xsel users can use xclip, or use [my fork of gist][fork].
+Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting xsel users in previous versions][151].
 
 [151]: https://github.com/defunkt/gist/pull/151
-[fork]: https://raw.github.com/weakish/gist/cbf90e1621752bd5129abe0505072457893bfddc/build/gist
 
 
 Usage
@@ -42,9 +41,9 @@ Usage
 
 For the first time, you need to run `gister init` to associate your GitHub account and configure the directory to store local copies of your gists.
 
-After that, you may run `gister fetchall` to fetch all your gists to local.
+After that, you may run `gister sync` to fetch all your gists to local.
 
-Warn: `fetchall` can only fetch up to 10 million gists for you. If you have more than 10 million gists, you need to modify the source of `gister` yourself.
+Warn: `sync` can only fetch up to 10 million gists for you. If you have more than 10 million gists, you need to modify the source of `gister` yourself.
 
 
 ### publish
@@ -58,6 +57,8 @@ This will create the gist with the provided description, clone the gist repo, pu
 Note: you must provide gist description, otherwise `gister` will fail.
 
 Hint: `gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands, e.g. `gister descrption -P` will work.
+
+If you've edited your gists at `gist.github.com` or local machine, without pull/push changesets, you can sync all your gists via `gister sync`.
 
 ### search
 

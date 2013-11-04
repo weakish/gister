@@ -21,7 +21,14 @@
 
 ## Versions
 
-semver='2.0.3-alpha' # released on 2013-11-3
+semver='v2.1.0' # released on 2013-11-4
+#   - seperate fetchlist() from fetchall()
+#   - seperate update_csearch_index() from publish() and migrate()
+#   - also support `-h` and `--help`
+#   - replace fetchall() with sync()
+
+# semver='2.0.3-alpha' # released on 2013-11-3
+#   - Fix a bug that causes `gister` to fail if `gist.home` unset. Thanks to wenLiangcan.
 
 # semver='2.0.2' # released on 2013-11-1
 #   Yet another hotfix version.
