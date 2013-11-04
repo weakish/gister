@@ -8,6 +8,9 @@ v2.1.0 (2013-11-4)
 - seperate `update_csearch_index()` from `publish()` and `migrate()`
 - also support `-h` and `--help`
 - replace `fetchall()` with `sync()`
+- move changelog to a seperate file
+- add manual
+- add tests
 
 v2.0.3-alpha (2013-11-3)
 ------------------------
