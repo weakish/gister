@@ -119,8 +119,7 @@ case $1 in
 esac
 }
 
-
-fetchall() {
+fetchlist() {
     echo 'I can only fetch up to 10 million gists for you.'
     if test -f $gisthome/gists.list; then
       mv $gisthome/gists.list $gisthome/gists.list.backup
@@ -133,15 +132,14 @@ fetchall() {
         break
       fi
     done
-    cd $gisthome/tree
-    cat $gisthome/gists.list |
-    grep -F '"git_pull_url":' |
-    grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
-    sed 's/^/git@/' |
-    sed -e 's/com\//com:/' |
-    xargs -I '{}' git clone '{}'
-    migrate
 }
+
+
+fetchall() {
+  echo '`fetchall` is deprecated. Use `gister sync` instead.'
+  sync
+}
+
 
 check_command() {
   to_check_command=$1
