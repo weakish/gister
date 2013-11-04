@@ -77,9 +77,10 @@ gister [ACTION]
 gister description file.txt [...]
 
 Actions:
-fetchall        fetch all your gists
-migrate         migrate from <1.0.0
+sync            sync all your gists
 search regexp   code search (command line)
+sync            sync with gist.github.com
+migrate         migrate from <1.0.0
 version         version
 help            this help page
 
@@ -87,7 +88,7 @@ Usage:
 
 `gister init` will associate your gists with your GitHub account and ask you where to store local copies of your gist.
 
-Run `gister fetchall` to fetch all your gists.
+Run `gister sync` to sync all your gists.
 
 `gister description file.txt ...`  will create the gist with the provided description,
 clone the gist repo, put the gistid to clipborad, and open the url in
@@ -109,13 +110,14 @@ fi
 set -e
 
 case $1 in
-    help)       help;;
-    fetchall)   fetchall;;
-    search)     code_search $2;;
-    init)       init;;
-    migrate)    migrate;;
-    version)    echo gister $semver;;
-    *)          publish "$@";;
+    fetchall)             fetchall;;
+    help|-h|--help)       help;;
+    init)                 init;;
+    migrate)              migrate;;
+    search)               code_search $2;;
+    sync)                 sync;;
+    version)              echo gister $semver;;
+    *)                    publish "$@";;
 esac
 }
 
@@ -162,6 +164,11 @@ get_paste() {
   fi
 }
 
+update_csearch_index() {
+  export CSEARCHINDEX=$gisthome/.csearchindex
+  cindex
+}
+
 publish() {
     local gist_description gist_argv
     gist_description="$1"
@@ -181,8 +188,7 @@ publish() {
       cd $gisthome/tree
       git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
       # code search index
-      export CSEARCHINDEX=$gisthome/.csearchindex
-      cindex
+      update_csearch_index
     fi
 }
 
@@ -219,9 +225,30 @@ migrate() {
   ls | xargs -I '{}' git init --separate-git-dir ../repo/'{}' '{}'
 
   # index via new engine 
+  update_csearch_index
+}
+
+sync_gist() {
+  gist_id=$1
+  if test -d $gisthome/tree/$gist_id; then
+    cd $gisthome/tree/$gist_id
+    git pull && git push
+  else
+    cd $gisthome/tree
+    git clone --separate-git-dir $gisthome/repo/$gist_id git@gist.github.com:$gist_id.git
+  fi
+}
+
+sync() {
+  fetchlist
   cd $gisthome
-  export CSEARCHINDEX=$gisthome/.csearchindex
-  cindex $gisthome/tree 
+  for gist_id in $(cat $gisthome/gists.list |
+  grep -F '"git_pull_url":' |
+  grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
+  sed -r 's/gist\.github\.com\/([0-9a-f]+)\.git/\1/'); do
+    sync_gist $gist_id
+  done
+  update_csearch_index
 }
 
 main "$@"
