@@ -19,63 +19,6 @@
 # csearch: https://code.google.com/p/codesearch/
 # jq: http://stedolan.github.io/jq/
 
-## Versions
-
-semver='v2.1.0' # released on 2013-11-4
-#   - seperate fetchlist() from fetchall()
-#   - seperate update_csearch_index() from publish() and migrate()
-#   - also support `-h` and `--help`
-#   - replace fetchall() with sync()
-
-# semver='2.0.3-alpha' # released on 2013-11-3
-#   - Fix a bug that causes `gister` to fail if `gist.home` unset. Thanks to wenLiangcan.
-
-# semver='2.0.2' # released on 2013-11-1
-#   Yet another hotfix version.
-#   - remove confusing error message
-#   - init() does not get oauth2 token if already exist.
-#   - init(): `gist.home` should be global. Thanks wenLiangcan.
-#   - fetchall(): fix a bug that causes git clone to fail.
-
-# semver='2.0.1' # released on 2013-10-31
-#   - add support for Mac OS X and Cygwin
-#   - add support for xclip
-
-# semver='2.0.0' # released on 2013-10-30
-#   - redesign UI
-#   - add init function
-#   - replace fetch_list() with fetchall(), which fetches all your gists.
-#   - improve documentation
-
-# semver='1.0.0' # released on 2013-09-16
-#   - Use new storage hierarchy (seperate work tree and repo)
-#   - Support github OAuth.
-#   - Fetch all gists of the user (including private ones).
-#   - Switch to csearch as code search backend.
-#   - Change license to Apache v2 License.
-
-
-# semver='0.3.0' # released on 2012-05-04
-#   - Change backend back to gist.rb, since pygist stops to work due to api change.
-#   - fetch_list() fetches public gists only. 
-#     (I myself only creates public gists. So I'm too lazy to deal with
-#     new oauth api. Patches are welcomed.)
-
-# semver='0.2.0' # released on 2012-04-17
-#   - change backend from gist.rb to pygsit
-#   - remove clone_my_gists()
-#   - fetch_list() fetches priveate gists too.
-#   - fix a bug to actually support multiple files
-#   - add support for gist description
-#   - add gistid to pasteboard
-
-# semver='0.1.0' # released on 2011-06-11
-#   - bugfix: implement clone properly (yaml -> json)
-#   - simplify publish()
-
-# semver=0.0.0 # released on 2011-04-04
-
-
 help() {
 cat<<'END'
 gister  -- shell script to access https://gist.github.com
@@ -123,7 +66,7 @@ case $1 in
     migrate)              migrate;;
     search)               code_search $2;;
     sync)                 sync;;
-    version)              echo gister $semver;;
+    version)              echo gister 'v2.1.0';;
     *)                    publish "$@";;
 esac
 }
