@@ -180,6 +180,7 @@ migrate() {
 
 sync_gist() {
   gist_id=$1
+  echo "syncing $gist_id"
   if test -d $gisthome/tree/$gist_id; then
     cd $gisthome/tree/$gist_id
     git pull && git push
