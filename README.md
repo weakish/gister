@@ -36,6 +36,20 @@ Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting x
 [151]: https://github.com/defunkt/gist/pull/151
 
 
+Install
+-------
+
+### fetch the source
+
+    git clone https://github.com/weakish/gister.git
+    cd gister
+    sudo rake install
+
+If you want to install `gister` to a place other than `/usr`, you can use `sudo rake install[prefix]` instead, e.g. `sudo rake install[/usr/local]`.
+
+Arch users can install via [AUR](https://aur.archlinux.org/packages/gister/), thanks to [weiLiangcan](https://github.com/wenLiangcan). 
+
+
 Usage
 -----
 
@@ -62,11 +76,13 @@ Hint: `gister` will pass all arguments to gist as `gist -c -o -d description ...
 
 If you've edited your gists at `gist.github.com` or local machine, without pull/push changesets, you can sync all your gists via `gister sync`.
 
+
 ### search
 
 Search all of your gists:
 
     gister search regexp
+
 
 ### migrate
 
@@ -90,11 +106,3 @@ Contributing
 ------------
 
 Fork and/or send pull requests or issues on github: https://github.com/weakish/gister
-
-
-Packages
---------
-
-### Arch
-
-[weiLiangcan](https://github.com/wenLiangcan) has packaged `gister` on [AUR](https://aur.archlinux.org/packages/gister/)

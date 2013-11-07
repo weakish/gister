@@ -1,6 +1,13 @@
 gister changes
 ==============
 
+v2.1.1-dev
+----------
+
+- add rakefile
+- fix a typo in manual
+
+
 v2.1.0 (2013-11-4)
 ------------------
 

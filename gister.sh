@@ -66,7 +66,7 @@ case $1 in
     migrate)              migrate;;
     search)               code_search $2;;
     sync)                 sync;;
-    version)              echo gister 'v2.1.0';;
+    version)              echo gister 'v2.1.1-dev';;
     *)                    publish "$@";;
 esac
 }

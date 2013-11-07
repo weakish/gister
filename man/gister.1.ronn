@@ -1,5 +1,5 @@
-gister(1) -- comand line gists manager
-======================================
+gister(1) -- command line gists manager
+=======================================
 
 
 SYNOPSIS
