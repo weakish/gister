@@ -76,6 +76,7 @@ Hint: `gister` will pass all arguments to gist as `gist -c -o -d description ...
 
 If you've edited your gists at `gist.github.com` or local machine, without pull/push changesets, you can sync all your gists via `gister sync`.
 
+If you've deleted your gists at `gist.github.com`, after `gister sync`, the directories of deleted gists at your local machine will be marked with a prefix `_`.
 
 ### search
 
@@ -99,6 +100,9 @@ Storage
     |-- gists.list  # a list of all your gists (including meta info) 
     |-- repo # git repositories of your gists
     |-- tree # working directory of your gist repositories
+        |-- 123456 # an example of gist
+        |-- _123567890 # an example of gist which you have deleted on gist.github.com
+        |-- ...
     `-- .csearchindex # code search index
 
 

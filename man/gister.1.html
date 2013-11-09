@@ -140,6 +140,8 @@ For Cygwin, you need putclip/getclip provided by cygutils-extra.
 
 <p>If you've edited your gists at <code>gist.github.com</code> or local machine, without pull/push changesets, you can sync all your gists via <code>gister sync</code>.</p>
 
+<p>If you've deleted your gists at <code>gist.github.com</code>, after <code>gister sync</code>, the directories of deleted gists at your local machine will be marked with a prefix <code>_</code>.</p>
+
 <h3 id="search">search</h3>
 
 <p>Search all of your gists:</p>
@@ -161,6 +163,9 @@ If you have used <code>gister &lt;1.0.0</code>, then you need to run this comman
 |-- gists.list  # a list of all your gists (including meta info) 
 |-- repo # git repositories of your gists
 |-- tree # working directory of your gist repositories
+    |-- 123456 # an example of gist
+    |-- _123567890 # an example of gist which you have deleted on gist.github.com
+    |-- ...
 `-- .csearchindex # code search index
 </code></pre>
 
