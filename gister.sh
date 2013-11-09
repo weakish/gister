@@ -19,6 +19,9 @@
 # csearch: https://code.google.com/p/codesearch/
 # jq: http://stedolan.github.io/jq/
 
+
+SEMVER='v2.1.1-dev'
+
 help() {
 cat<<'END'
 gister  -- shell script to access https://gist.github.com
@@ -66,7 +69,7 @@ case $1 in
     migrate)              migrate;;
     search)               code_search $2;;
     sync)                 sync;;
-    version)              echo gister 'v2.1.1-dev';;
+    version)              echo gister $SEMVER;;
     *)                    publish "$@";;
 esac
 }
