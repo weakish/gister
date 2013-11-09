@@ -181,6 +181,20 @@ migrate() {
   update_csearch_index
 }
 
+
+sync() {
+  fetchlist
+  cd $gisthome
+  for gist_id in $(cat $gisthome/gists.list |
+  grep -F '"git_pull_url":' |
+  grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
+  sed -r 's/gist\.github\.com\/([0-9a-f]+)\.git/\1/'); do
+    sync_gist $gist_id
+  done
+  mark_deleted_gists
+  update_csearch_index
+}
+
 sync_gist() {
   gist_id=$1
   echo "syncing $gist_id"
@@ -193,16 +207,14 @@ sync_gist() {
   fi
 }
 
-sync() {
-  fetchlist
-  cd $gisthome
-  for gist_id in $(cat $gisthome/gists.list |
-  grep -F '"git_pull_url":' |
-  grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
-  sed -r 's/gist\.github\.com\/([0-9a-f]+)\.git/\1/'); do
-    sync_gist $gist_id
+mark_deleted_gists() {
+  cd $gisthome/tree
+  for gist_id in [0-9a-f]*; do
+    if ! echo $gist_id | grep -F '"git_pull_url": "https://gist.github.com/'$gist_id'.git"'; then
+      mv $gist_id _$gist_id
+    fi
   done
-  update_csearch_index
 }
+
 
 main "$@"
