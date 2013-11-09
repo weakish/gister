@@ -1,9 +1,10 @@
 gister changes
 ==============
 
-v2.1.1-dev
-----------
+v2.1.1 (2013-11-9)
+------------------
 
+- mark deleted gists
 - add rakefile
 - fix a typo in manual
 

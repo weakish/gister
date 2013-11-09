@@ -20,7 +20,7 @@
 # jq: http://stedolan.github.io/jq/
 
 
-SEMVER='v2.1.1-dev'
+SEMVER='v2.1.1'
 
 help() {
 cat<<'END'
@@ -210,7 +210,7 @@ sync_gist() {
 mark_deleted_gists() {
   cd $gisthome/tree
   for gist_id in [0-9a-f]*; do
-    if !  grep -F '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/gists.list; then
+    if !  grep -F -q '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/gists.list; then
       mv $gist_id _$gist_id
     fi
   done
