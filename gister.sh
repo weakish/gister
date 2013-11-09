@@ -210,7 +210,7 @@ sync_gist() {
 mark_deleted_gists() {
   cd $gisthome/tree
   for gist_id in [0-9a-f]*; do
-    if ! echo $gist_id | grep -F '"git_pull_url": "https://gist.github.com/'$gist_id'.git"'; then
+    if !  grep -F '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/gists.list; then
       mv $gist_id _$gist_id
     fi
   done
