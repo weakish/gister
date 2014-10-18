@@ -53,9 +53,9 @@ END
 }
 
 main() {
-gisthome=${GIST_HOME:=`git config --get gist.home`}
+gisthome=${GIST_HOME:=$(git config --get gist.home)}
 if test -f $HOME/.gist; then
-  github_oauth_token=`cat $HOME/.gist`
+  github_oauth_token=$(cat $HOME/.gist)
 else
   echo 'You need a github oauth2 token.'
 fi
@@ -133,7 +133,7 @@ publish() {
       # post gist and open it in browser
       gist -c -o -d "$gist_description" $gist_argv
       # record the id
-      local gist_id=`get_paste | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///'`
+      local gist_id=$(get_paste | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///')
       # add a record
       cd $gisthome
       curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list
