@@ -110,6 +110,7 @@ get_paste() {
   # Mac OS X
   elif check_command pbpaste; then
     pbpaste
+  # Windows (Cygwin)
   elif check_command getclip; then
     getclip
   else
