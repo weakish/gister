@@ -20,7 +20,7 @@
 # jq: http://stedolan.github.io/jq/
 
 
-SEMVER='v2.1.1'
+SEMVER='v2.1.2'
 
 help() {
 cat<<'END'
@@ -220,7 +220,10 @@ sync_gist() {
     # This will speed sync on slow network connection.
     local last_commit_unixtime=$(git log -1 --pretty=format:%ct)
     local last_updated_unixtime=$(date --date="$gist_updated_at" +"%s")
-    if test $last_commit_unixtime -eq $last_updated_unixtime; then
+    local time_difference=$(($last_commit_unixtime - $last_updated_unixtime))
+    local time_difference_abs=$(echo $time_difference | tr -d -)
+    # Allow 6 seconds difference since local machine's and GitHub's time may differ slightly. 
+    if test $time_difference_abs -le 6; then
       echo 'Already up to date.'
     else
       git pull && git push
