@@ -1,6 +1,11 @@
 gister changes
 ==============
 
+v2.1.2 (future)
+----------------
+
+- sync: Compare update time to skip already up to date repos.
+
 v2.1.1 (2013-11-9)
 ------------------
 

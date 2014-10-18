@@ -79,14 +79,28 @@ fetchlist() {
     if test -f $gisthome/gists.list; then
       mv $gisthome/gists.list $gisthome/gists.list.backup
     fi
-    curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' > $gisthome/gists.list
-    for i in `seq 2 100000`; do
+    curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' > $gisthome/gists.list.dirty
+    for i in $(seq 2 100000); do
       if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
-        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" >> $gisthome/gists.list
+        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" >> $gisthome/gists.list.dirty
       else
         break
       fi
     done
+
+    # If you have more than 100 gists, gists.list will contain more than one array.
+    # Thus we need to combine them into one.
+    cat $gisthome/gists.list.dirty |
+    # delete all `[`s
+    sed -r '/^\[$/d' |
+    # recover the first `[`
+    sed -r '1 i [' |
+    # replace all `]`s to `,`
+    sed -r 's/^]$/,/g' |
+    # delete `,` on the last line (JSON does not permit this!)
+    sed -r '$d' |
+    # recover the last `]`
+    sed -r '$ a ]' > $gisthome/gists.list
 }
 
 
@@ -186,22 +200,31 @@ migrate() {
 sync() {
   fetchlist
   cd $gisthome
-  for gist_id in $(cat $gisthome/gists.list |
-  grep -F '"git_pull_url":' |
-  grep -oE 'gist\.github\.com/[0-9a-f]+\.git' |
-  sed -r 's/gist\.github\.com\/([0-9a-f]+)\.git/\1/'); do
-    sync_gist $gist_id
+  local gists_list_length=$(cat $gisthome/gists.list | jq '. | length')
+  for i in $(seq 0 $(($gists_list_length - 1))); do
+    local gist_id=$(cat $gisthome/gists.list | jq --raw-output ".[$i].id")
+    local gist_updated_at=$(cat $gisthome/gists.list | jq --raw-output ".[$i].updated_at")
+    sync_gist $gist_id $gist_updated_at
   done
   mark_deleted_gists
   update_csearch_index
 }
 
 sync_gist() {
-  gist_id=$1
+  local gist_id=$1
+  local gist_updated_at=$2
   echo "syncing $gist_id"
   if test -d $gisthome/tree/$gist_id; then
     cd $gisthome/tree/$gist_id
-    git pull && git push
+    # Compare update time to skip already up to date repos.
+    # This will speed sync on slow network connection.
+    local last_commit_unixtime=$(git log -1 --pretty=format:%ct)
+    local last_updated_unixtime=$(date --date="$gist_updated_at" +"%s")
+    if test $last_commit_unixtime -eq $last_updated_unixtime; then
+      echo 'Already up to date.'
+    else
+      git pull && git push
+    fi
   else
     cd $gisthome/tree
     git clone --separate-git-dir $gisthome/repo/$gist_id git@gist.github.com:$gist_id.git
