@@ -32,7 +32,6 @@ gister description file.txt [...]
 Actions:
 sync            sync all your gists
 search regexp   code search (command line)
-sync            sync with gist.github.com
 migrate         migrate from <1.0.0
 version         version
 help            this help page
