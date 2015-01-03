@@ -133,7 +133,7 @@ get_paste() {
 
 update_csearch_index() {
   export CSEARCHINDEX=$gisthome/.csearchindex
-  cindex
+  cindex $gisthome/tree
 }
 
 publish() {
