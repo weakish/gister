@@ -143,7 +143,9 @@ get_paste() {
 
 update_csearch_index() {
   export CSEARCHINDEX=$gisthome/.csearchindex
-  cindex $gisthome/tree
+  # (d/b)ash does not support ${1:=$gisthome/tree}.
+  directory=${1:-$gisthome/tree}
+  cindex $directory
 }
 
 publish() {
@@ -165,7 +167,7 @@ publish() {
       cd $gisthome/tree
       git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
       # code search index
-      update_csearch_index
+      update_csearch_index $gisthome/tree/$gist_id
     fi
 }
 
