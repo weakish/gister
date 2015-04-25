@@ -1,12 +1,19 @@
-gister(1) -- command line gists manager
-=======================================
+%GISTER(1) gister 2.0.2 | Gister Manual
 
+NAME
+-----
+
+gister(1) -- command line gists manager
 
 SYNOPSIS
 --------
 
-- `gister` [ACTION]
-- `gister` <description> <file.txt...>
+`gister` *description* *file*... \
+`gister` `sync` \
+`gister` `search` *regexp* \
+`gister` `migrate` \
+`gister` `version` \
+`gister` `help`
 
 
 DESCRIPTION
@@ -102,5 +109,3 @@ CONTRIBUTING
 ------------
 
 Fork and/or send pull requests or issues on github: https://github.com/weakish/gister
-
-

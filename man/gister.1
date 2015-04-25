@@ -1,148 +1,152 @@
-.\" generated with Ronn/v0.7.3
-.\" http://github.com/rtomayko/ronn/tree/0.7.3
-.
-.TH "GISTER" "1" "November 2013" "" ""
-.
-.SH "NAME"
-\fBgister\fR \- command line gists manager
-.
-.SH "SYNOPSIS"
-.
-.IP "\(bu" 4
-\fBgister\fR [ACTION]
-.
-.IP "\(bu" 4
-\fBgister\fR \fIdescription\fR <file\.txt\.\.\.>
-.
-.IP "" 0
-.
-.SH "DESCRIPTION"
-\fBgister\fR is a command line tool for managing GitHub gists\.
-.
+.TH "GISTER" "1" "" "gister 2.0.2" "Gister Manual"
+.SS NAME
+.PP
+gister(1) \-\- command line gists manager
+.SS SYNOPSIS
+.PP
+\f[C]gister\f[] \f[I]description\f[] \f[I]file\f[]...
+.PD 0
 .P
-Based on \fBgist\.rb\fR by defunkt, this tool helps you to manage a local copy of your gists\.
-.
+.PD
+\f[C]gister\f[] \f[C]sync\f[]
+.PD 0
 .P
-After publishing files to gist\.github\.com, this tool will:
-.
-.IP "\(bu" 4
+.PD
+\f[C]gister\f[] \f[C]search\f[] \f[I]regexp\f[]
+.PD 0
+.P
+.PD
+\f[C]gister\f[] \f[C]migrate\f[]
+.PD 0
+.P
+.PD
+\f[C]gister\f[] \f[C]version\f[]
+.PD 0
+.P
+.PD
+\f[C]gister\f[] \f[C]help\f[]
+.SS DESCRIPTION
+.PP
+\f[C]gister\f[] is a command line tool for managing GitHub gists.
+.PP
+Based on \f[C]gist.rb\f[] by defunkt, this tool helps you to manage a
+local copy of your gists.
+.PP
+After publishing files to gist.github.com, this tool will:
+.IP \[bu] 2
 automatically clone the gist repository to local
-.
-.IP "\(bu" 4
+.IP \[bu] 2
 index the content of your gist for code search
-.
-.IP "\(bu" 4
-fetch meta info (e\.g\. description, url) of the gist from GitHub and add them to \fBgists\.list\fR
-.
-.IP "" 0
-.
-.P
-You can also use \fBgisetr\fR to sync your gists between gist\.github\.com and your machine\.
-.
-.SH "DEPENDENCIES"
-.
-.IP "\(bu" 4
+.IP \[bu] 2
+fetch meta info (e.g.
+description, url) of the gist from GitHub and add them to
+\f[C]gists.list\f[]
+.PP
+You can also use \f[C]gisetr\f[] to sync your gists between
+gist.github.com and your machine.
+.SS DEPENDENCIES
+.IP \[bu] 2
 curl
-.
-.IP "\(bu" 4
+.IP \[bu] 2
 git
-.
-.IP "\(bu" 4
-gist\.rb
-.
-.IP "\(bu" 4
+.IP \[bu] 2
+gist.rb
+.IP \[bu] 2
 csearch
-.
-.IP "\(bu" 4
+.IP \[bu] 2
 jq
-.
-.IP "" 0
-.
-.P
-For Linux, BSD, etc, you also need \fBxclip\fR or \fBxsel\fR\. For Cygwin, you need putclip/getclip provided by cygutils\-extra\. (Mas OS X users should be fine with the preinstalled pbcopy/pbpaste\.)
-.
-.P
-Note: \fBxsel\fR users should use \fBgist\.rb\fR v4\.1\.2+, since there is a bug bitting xsel users in previous versions\.
-.
-.SH "USAGE"
-.
-.SS "init"
-For the first time, you need to run \fBgister init\fR to associate your GitHub account and configure the directory to store local copies of your gists\.
-.
-.P
-After that, you may run \fBgister sync\fR to fetch all your gists to local\.
-.
-.P
-Warn: \fBsync\fR can only fetch up to 10 million gists for you\. If you have more than 10 million gists, you need to modify the source of \fBgister\fR yourself\.
-.
-.SS "publish"
+.PP
+For Linux, BSD, etc, you also need \f[C]xclip\f[] or \f[C]xsel\f[].
+For Cygwin, you need putclip/getclip provided by cygutils\-extra.
+(Mas OS X users should be fine with the preinstalled pbcopy/pbpaste.)
+.PP
+Note: \f[C]xsel\f[] users should use \f[C]gist.rb\f[] v4.1.2+, since
+there is a bug bitting xsel users in previous versions.
+.PP
+If you want to backup markdown files in your gists to Evernote, you need
+geeknote (http://www.geeknote.me/).
+.SS USAGE
+.SS init
+.PP
+For the first time, you need to run \f[C]gister\ init\f[] to associate
+your GitHub account and configure the directory to store local copies of
+your gists.
+.PP
+After that, you may run \f[C]gister\ sync\f[] to fetch all your gists to
+local.
+.PP
+Warn: \f[C]sync\f[] can only fetch up to 10 million gists for you.
+If you have more than 10 million gists, you need to modify the source of
+\f[C]gister\f[] yourself.
+.SS publish
+.PP
 Whenever you want to publish a gist, just use
-.
-.IP "" 4
-.
+.IP
 .nf
-
-gister description file\.txt \.\.\.
-.
+\f[C]
+gister\ description\ file.txt\ ...
+\f[]
 .fi
-.
-.IP "" 0
-.
-.P
-This will create the gist with the provided description, clone the gist repo, put the gistid to clipborad, and open the url in your \fBx\-www\-browser\fR\.
-.
-.P
-Note: you must provide gist description, otherwise \fBgister\fR will fail\.
-.
-.P
-Hint: \fBgister\fR will pass all arguments to gist as \fBgist \-c \-o \-d description \.\.\.\fR, so you can use other options that gist understands, e\.g\. \fBgister descrption \-P\fR will work\.
-.
-.P
-If you\'ve edited your gists at \fBgist\.github\.com\fR or local machine, without pull/push changesets, you can sync all your gists via \fBgister sync\fR\.
-.
-.P
-If you\'ve deleted your gists at \fBgist\.github\.com\fR, after \fBgister sync\fR, the directories of deleted gists at your local machine will be marked with a prefix \fB_\fR\.
-.
-.SS "search"
+.PP
+This will create the gist with the provided description, clone the gist
+repo, put the gistid to clipborad, and open the url in your
+\f[C]x\-www\-browser\f[].
+.PP
+Note: you must provide gist description, otherwise \f[C]gister\f[] will
+fail.
+.PP
+Hint: \f[C]gister\f[] will pass all arguments to gist as
+\f[C]gist\ \-c\ \-o\ \-d\ description\ ...\f[], so you can use other
+options that gist understands, e.g.
+\f[C]gister\ descrption\ \-P\f[] will work.
+.PP
+If you\[aq]ve edited your gists at \f[C]gist.github.com\f[] or local
+machine, without pull/push changesets, you can sync all your gists via
+\f[C]gister\ sync\f[].
+.PP
+If you\[aq]ve deleted your gists at \f[C]gist.github.com\f[], after
+\f[C]gister\ sync\f[], the directories of deleted gists at your local
+machine will be marked with a prefix \f[C]_\f[].
+.PP
+If \f[C]gnsync\f[] is available (provided by
+geeknote (http://www.geeknote.me/)), \f[C]gister\ sync\f[] will also
+backup all \[aq]*.md\[aq] files to your evernote notebook
+\[aq]gists\[aq].
+.SS search
+.PP
 Search all of your gists:
-.
-.IP "" 4
-.
+.IP
 .nf
-
-gister search regexp
-.
+\f[C]
+gister\ search\ regexp
+\f[]
 .fi
-.
-.IP "" 0
-.
-.SS "migrate"
-From version 1\.0\.0, \fBgister\fR uses a different storage structure\. If you have used \fBgister <1\.0\.0\fR, then you need to run this command to migrate:
-.
-.IP "" 4
-.
+.SS migrate
+.PP
+From version 1.0.0, \f[C]gister\f[] uses a different storage structure.
+If you have used \f[C]gister\ <1.0.0\f[], then you need to run this
+command to migrate:
+.IP
 .nf
-
-gister migrate
-.
+\f[C]
+gister\ migrate
+\f[]
 .fi
-.
-.IP "" 0
-.
-.SH "STORAGE"
-.
+.SS STORAGE
+.IP
 .nf
-
+\f[C]
 /path/to/your/gists
-|\-\- gists\.list  # a list of all your gists (including meta info)
-|\-\- repo # git repositories of your gists
-|\-\- tree # working directory of your gist repositories
-    |\-\- 123456 # an example of gist
-    |\-\- _123567890 # an example of gist which you have deleted on gist\.github\.com
-    |\-\- \.\.\.
-`\-\- \.csearchindex # code search index
-.
+|\-\-\ gists.list\ \ #\ a\ list\ of\ all\ your\ gists\ (including\ meta\ info)
+|\-\-\ repo\ #\ git\ repositories\ of\ your\ gists
+|\-\-\ tree\ #\ working\ directory\ of\ your\ gist\ repositories
+\ \ \ \ |\-\-\ 123456\ #\ an\ example\ of\ gist
+\ \ \ \ |\-\-\ _123567890\ #\ an\ example\ of\ gist\ which\ you\ have\ deleted\ on\ gist.github.com
+\ \ \ \ |\-\-\ ...
+`\-\-\ .csearchindex\ #\ code\ search\ index
+\f[]
 .fi
-.
-.SH "CONTRIBUTING"
-Fork and/or send pull requests or issues on github: https://github\.com/weakish/gister
+.SS CONTRIBUTING
+.PP
+Fork and/or send pull requests or issues on github:
+https://github.com/weakish/gister
