@@ -14,7 +14,7 @@ After publishing files to gist.github.com, this tool will:
 [gist]: https://github.com/defunkt/gist
 [defunkt]: https://github.com/defunkt
 
-You can also use `gisetr` to sync your gists between gist.github.com and your machine.
+You can also use `gister` to sync your gists between gist.github.com and your machine.
 
 
 Dependencies
