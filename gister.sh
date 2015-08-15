@@ -175,7 +175,7 @@ init() {
   fi
   # store
   echo 'Where do you want to store local copies of your gists?'
-  read -p 'Enter full path to the directroy: ' gist_store_directory
+  read -p 'Enter full path to the directory: ' gist_store_directory
   git config --global gist.home $gist_store_directory
   mkdir -p $gist_store_directory/tree $gist_store_directory/repo
   echo "Your gists will be stored at $gist_store_directory"
