@@ -5,6 +5,7 @@ v2.1.2 (future)
 ----------------
 
 - sync: Compare update time to skip already up to date repos.
+- Use `gsed` and `gdate` on Mac OS X. Fix #14.
 
 v2.1.1 (2013-11-9)
 ------------------
