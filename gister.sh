@@ -10,6 +10,7 @@
 # csearch
 # jq
 # xclip|xsel|pbpaste|cygutils-extra
+# gsed/gdate on Mac OS X
 
 ## Ref:
 # github API: https://develop.github.com/v3/
@@ -21,6 +22,15 @@
 
 
 SEMVER='v2.1.2'
+
+# Mac OS X compatibility
+if [ "$(uname)" = "Darwin" ]; then
+  SED=gsed
+  DATE=gdate
+else
+  SED=sed
+  DATE=date
+fi
 
 help() {
 cat<<'END'
@@ -91,15 +101,15 @@ fetchlist() {
     # Thus we need to combine them into one.
     cat $gisthome/gists.list.dirty |
     # delete all `[`s
-    sed -r '/^\[$/d' |
+    $SED -r '/^\[$/d' |
     # recover the first `[`
-    sed -r '1 i [' |
+    $SED -r '1 i [' |
     # replace all `]`s to `,`
-    sed -r 's/^]$/,/g' |
+    $SED -r 's/^]$/,/g' |
     # delete `,` on the last line (JSON does not permit this!)
-    sed -r '$d' |
+    $SED -r '$d' |
     # recover the last `]`
-    sed -r '$ a ]' > $gisthome/gists.list
+    $SED -r '$ a ]' > $gisthome/gists.list
 }
 
 
@@ -147,7 +157,7 @@ publish() {
       # post gist and open it in browser
       gist -c -o -d "$gist_description" $gist_argv
       # record the id
-      local gist_id=$(get_paste | grep -o -E '/[0-9a-f]+$' | sed -e 's/\///')
+      local gist_id=$(get_paste | grep -o -E '/[0-9a-f]+$' | $SED -e 's/\///')
       # add a record
       cd $gisthome
       curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list
@@ -191,7 +201,7 @@ migrate() {
   cd tree
   ls | xargs -I '{}' git init --separate-git-dir ../repo/'{}' '{}'
 
-  # index via new engine 
+  # index via new engine
   update_csearch_index
 }
 
@@ -218,10 +228,10 @@ sync_gist() {
     # Compare update time to skip already up to date repos.
     # This will speed sync on slow network connection.
     local last_commit_unixtime=$(git log -1 --pretty=format:%ct)
-    local last_updated_unixtime=$(date --date="$gist_updated_at" +"%s")
+    local last_updated_unixtime=$($DATE --date="$gist_updated_at" +"%s")
     local time_difference=$(($last_commit_unixtime - $last_updated_unixtime))
     local time_difference_abs=$(echo $time_difference | tr -d -)
-    # Allow 6 seconds difference since local machine's and GitHub's time may differ slightly. 
+    # Allow 6 seconds difference since local machine's and GitHub's time may differ slightly.
     if test $time_difference_abs -le 6; then
       echo 'Already up to date.'
     else

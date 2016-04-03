@@ -31,6 +31,9 @@ For Linux, BSD, etc, you also need `xclip` or `xsel`.
 For Cygwin, you need putclip/getclip provided by cygutils-extra.
 (Mas OS X users should be fine with the preinstalled pbcopy/pbpaste.)
 
+Mac OS X users also need GNU versions of `sed` and `date`, a.k.a `gsed` and
+`gdate`.
+
 Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting xsel users in previous versions][151].
 
 [151]: https://github.com/defunkt/gist/pull/151
