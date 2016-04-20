@@ -1,11 +1,6 @@
 gister changes
 ==============
 
-v2.1.3 (future)
---------------------
-
-- update_csearch_index: fix a bug that index is not updated.
-
 v2.1.2 (2016-04-20)
 ----------------
 
