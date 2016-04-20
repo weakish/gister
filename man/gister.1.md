@@ -1,4 +1,4 @@
-%GISTER(1) gister 2.0.2 | Gister Manual
+%GISTER(1) gister 2.1.2 | Gister Manual
 
 NAME
 -----
@@ -28,7 +28,7 @@ After publishing files to gist.github.com, this tool will:
 
 - automatically clone the gist repository to local
 - index the content of your gist for code search
-- fetch meta info (e.g. description, url) of the gist from GitHub and add them to `gists.list` 
+- fetch meta info (e.g. description, url) of the gist from GitHub and add them to `gists.list`.
 
 You can also use `gisetr` to sync your gists between gist.github.com and your machine.
 
@@ -96,7 +96,7 @@ STORAGE
 
 
     /path/to/your/gists
-    |-- gists.list  # a list of all your gists (including meta info) 
+    |-- gists.list  # a list of all your gists (including meta info)
     |-- repo # git repositories of your gists
     |-- tree # working directory of your gist repositories
         |-- 123456 # an example of gist

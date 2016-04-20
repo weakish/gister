@@ -1,13 +1,13 @@
 gister changes
 ==============
 
-v2.1.2 (future)
+v2.1.2 (2016-04-20)
 ----------------
 
 - sync: Compare update time to skip already up to date repos.
 - Use `gsed` and `gdate` on Mac OS X. Fix #14.
 
-v2.1.1 (2013-11-9)
+v2.1.1 (2013-11-09)
 ------------------
 
 - mark deleted gists
@@ -15,7 +15,7 @@ v2.1.1 (2013-11-9)
 - fix a typo in manual
 
 
-v2.1.0 (2013-11-4)
+v2.1.0 (2013-11-04)
 ------------------
 
 - seperate `fetchlist()` from `fetchall()`
@@ -26,12 +26,12 @@ v2.1.0 (2013-11-4)
 - add manual
 - add tests
 
-v2.0.3-alpha (2013-11-3)
+v2.0.3-alpha (2013-11-03)
 ------------------------
 
 Fix a bug that causes `gister` to fail if `gist.home` unset. Thanks to wenLiangcan.
 
-v2.0.2 (2013-11-1)
+v2.0.2 (2013-11-01)
 ------------------
 
 Yet another hotfix version.
@@ -70,7 +70,7 @@ v0.3.0 (2012-05-04)
 
 - Change backend back to gist.rb, since pygist stops to work due to api change.
 
-- `fetch_list()` fetches public gists only. 
+- `fetch_list()` fetches public gists only.
     (I myself only creates public gists. So I'm too lazy to deal with
     new oauth api. Patches are welcomed.)
 
