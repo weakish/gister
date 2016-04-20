@@ -172,7 +172,7 @@ publish() {
 
 code_search() {
   export CSEARCHINDEX=$gisthome/.csearchindex
-  csearch -i -l -n $1
+  csearch -i -l -n "$1"
 }
 
 init() {
