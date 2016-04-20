@@ -9,7 +9,7 @@ After publishing files to gist.github.com, this tool will:
 
 - automatically clone the gist repository to local
 - index the content of your gist for code search
-- fetch meta info (e.g. description, url) of the gist from GitHub and add them to `gists.list` 
+- fetch meta info (e.g. description, url) of the gist from GitHub and add them to `gists.list`.
 
 [gist]: https://github.com/defunkt/gist
 [defunkt]: https://github.com/defunkt
@@ -42,7 +42,17 @@ Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting x
 Install
 -------
 
-### fetch the source
+### With basher
+
+```sh
+; basher install weakish/gister
+```
+
+Require [basher][] version: `>=39875bc`.
+
+[basher]: https://github.com/basherpm/basher
+
+### With rake
 
     git clone https://github.com/weakish/gister.git
     cd gister
@@ -50,7 +60,9 @@ Install
 
 If you want to install `gister` to a place other than `/usr`, you can use `sudo rake install[prefix]` instead, e.g. `sudo rake install[/usr/local]`.
 
-Arch users can install via [AUR](https://aur.archlinux.org/packages/gister/), thanks to [weiLiangcan](https://github.com/wenLiangcan). 
+### With AUR
+
+Arch users can install via [AUR](https://aur.archlinux.org/packages/gister/), thanks to [weiLiangcan](https://github.com/wenLiangcan).
 
 
 Usage
@@ -100,7 +112,7 @@ Storage
 -------
 
     /path/to/your/gists
-    |-- gists.list  # a list of all your gists (including meta info) 
+    |-- gists.list  # a list of all your gists (including meta info)
     |-- repo # git repositories of your gists
     |-- tree # working directory of your gist repositories
         |-- 123456 # an example of gist

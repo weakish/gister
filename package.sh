@@ -1,0 +1,2 @@
+BINS=gister.sh
+REMOVE_EXTENSION=true
