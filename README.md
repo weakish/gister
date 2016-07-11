@@ -60,10 +60,6 @@ Require [basher][] version: `>=39875bc`.
 
 If you want to install `gister` to a place other than `/usr`, you can use `sudo rake install[prefix]` instead, e.g. `sudo rake install[/usr/local]`.
 
-### With AUR
-
-Arch users can install via [AUR](https://aur.archlinux.org/packages/gister/), thanks to [weiLiangcan](https://github.com/wenLiangcan).
-
 
 Usage
 -----
