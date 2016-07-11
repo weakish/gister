@@ -17,7 +17,7 @@
 # gist API: https://developer.github.com/v3/gists/
 # gist.rb: https://github.com/defunkt/gist
 # gist clients: https://gist.github.com/370230
-# csearch: https://code.google.com/p/codesearch/
+# csearch: https://github.com/google/codesearch
 # jq: http://stedolan.github.io/jq/
 
 

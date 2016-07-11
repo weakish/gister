@@ -24,7 +24,7 @@ Dependencies
 - curl
 - git
 - [gist.rb][gist]
-- [csearch](https://code.google.com/p/codesearch/)
+- [csearch](https://github.com/google/codesearch)
 - [jq](http://stedolan.github.io/jq/)
 
 For Linux, BSD, etc, you also need `xclip` or `xsel`.
