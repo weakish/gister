@@ -24,7 +24,7 @@ Dependencies
 - curl
 - git
 - [gist.rb][gist]
-- [csearch](https://github.com/google/codesearch)
+- [csearch](https://github.com/google/codesearch) (optional)
 - [jq](http://stedolan.github.io/jq/)
 
 For Linux, BSD, etc, you also need `xclip` or `xsel`.
@@ -95,6 +95,8 @@ Search all of your gists:
 
     gister search regexp
 
+If `codesearch` is installed, `regexp` is RE2 (nearly PCRE).
+Otherwise it is ERE, a.k.a `grep -E`.
 
 ### migrate
 
@@ -114,7 +116,7 @@ Storage
         |-- 123456 # an example of gist
         |-- _123567890 # an example of gist which you have deleted on gist.github.com
         |-- ...
-    `-- .csearchindex # code search index
+    `-- .csearchindex # code search index (optional)
 
 
 Contributing

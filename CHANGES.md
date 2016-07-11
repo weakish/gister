@@ -1,6 +1,11 @@
 gister changes
 ==============
 
+v2.2.0 (future)
+----------------
+
+- Fall back to `grep` if codesearch is not available.
+
 v2.1.2 (2016-04-20)
 ----------------
 

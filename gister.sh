@@ -7,7 +7,7 @@
 # gist.rb
 # curl
 # git
-# csearch
+# csearch (optional)
 # jq
 # xclip|xsel|pbpaste|cygutils-extra
 # gsed/gdate on Mac OS X
@@ -142,8 +142,12 @@ get_paste() {
 }
 
 update_csearch_index() {
-  export CSEARCHINDEX=$gisthome/.csearchindex
-  cindex $gisthome/tree
+  if (which cindex > /dev/null); then
+    export CSEARCHINDEX=$gisthome/.csearchindex
+    cindex $gisthome/tree
+  else  # do nothing
+    echo 'codesearch is not installed. Skip building index.'
+  fi
 }
 
 publish() {
@@ -171,8 +175,12 @@ publish() {
 
 
 code_search() {
-  export CSEARCHINDEX=$gisthome/.csearchindex
-  csearch -i -l -n "$1"
+  if (which csearch > /dev/null); then
+    export CSEARCHINDEX=$gisthome/.csearchindex
+    csearch -i -l -n "$1"
+  else
+    grep -r -E "$1" $gisthome/tree
+  fi
 }
 
 init() {
