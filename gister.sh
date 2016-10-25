@@ -256,6 +256,7 @@ mark_deleted_gists() {
   for gist_id in [0-9a-f]*; do
     if !  grep -F -q '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/gists.list; then
       mv $gist_id _$gist_id
+      sed -i -r "s#tree/$argv[1]#tree/_$gist_id#" $gisthome/repo/$gist_id/config
     fi
   done
 }
