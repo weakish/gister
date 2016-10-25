@@ -52,6 +52,15 @@ Require [basher][] version: `>=39875bc`.
 
 [basher]: https://github.com/basherpm/basher
 
+### With make
+
+    git clone https://github.com/weakish/gister.git
+    cd gister
+    make
+
+- Edit `config.mk` if you do not want to install it to `/usr/local`.
+- Compatible with both GNU and BSD make.
+
 ### With rake
 
     git clone https://github.com/weakish/gister.git
