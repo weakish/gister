@@ -241,7 +241,7 @@ sync_gist() {
     local time_difference_abs=$(echo $time_difference | tr -d -)
     # Allow 6 seconds difference since local machine's and GitHub's time may differ slightly.
     if test $time_difference_abs -le 6; then
-      echo 'Already up to date.'
+      echo "[x] $gist_id"
     else
       git pull && git push
     fi
