@@ -81,6 +81,8 @@ After that, you may run `gister sync` to fetch all your gists to local.
 
 Warn: `sync` can only fetch up to 10 million gists for you. If you have more than 10 million gists, you need to modify the source of `gister` yourself.
 
+Also note that `gister sync` will not sync dirty repos.
+It will gives a warning on the stdout.
 
 ### publish
 

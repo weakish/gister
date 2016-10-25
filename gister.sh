@@ -243,7 +243,11 @@ sync_gist() {
     if test $time_difference_abs -le 6; then
       echo "[x] $gist_id"
     else
-      git pull && git push
+      if [ $(git status --porcelain | wc -l) -eq 0 ]; then # clean
+        git pull && git push
+      else # dirty
+        echo "DIRTY $gist_id"
+      fi
     fi
   else
     cd $gisthome/tree
