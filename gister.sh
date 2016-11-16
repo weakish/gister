@@ -53,8 +53,7 @@ Usage:
 Run `gister sync` to sync all your gists.
 
 `gister description file.txt ...`  will create the gist with the provided description,
-clone the gist repo, put the gistid to clipborad, and open the url in
-your `x-www-browser`.
+clone the gist repo and put the gistid to clipborad.
 `gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands,
 e.g. `gister descrption -P` will work.
 
@@ -159,7 +158,7 @@ publish() {
     else
       gist_argv=$@
       # post gist and open it in browser
-      gist -c -o -d "$gist_description" $gist_argv
+      gist -c -d "$gist_description" $gist_argv
       # record the id
       local gist_id=$(get_paste | grep -o -E '/[0-9a-f]+$' | $SED -e 's/\///')
       # add a record

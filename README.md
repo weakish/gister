@@ -90,7 +90,7 @@ Whenever you want to publish a gist, just use
 
     gister description file.txt ...
 
-This will create the gist with the provided description, clone the gist repo, put the gistid to clipborad, and open the url in your `x-www-browser`.
+This will create the gist with the provided description, clone the gist repo, and put the gistid to clipborad.
 
 Note: you must provide gist description, otherwise `gister` will fail.
 
