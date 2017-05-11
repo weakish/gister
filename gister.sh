@@ -62,7 +62,7 @@ END
 }
 
 main() {
-gisthome=${GIST_HOME:=$(git config --get gist.home)}
+gisthome=${GIST_HOME:=$(git config --global --path --get gist.home)}
 if test -f $HOME/.gist; then
   github_oauth_token=$(cat $HOME/.gist)
 else
@@ -195,6 +195,7 @@ init() {
   echo 'Where do you want to store local copies of your gists?'
   read -p 'Enter full path to the directory: ' gist_store_directory
   git config --global gist.home $gist_store_directory
+  gist_store_directory=$(git config --global --path --get gist.home)
   mkdir -p $gist_store_directory/tree $gist_store_directory/repo
   echo "Your gists will be stored at $gist_store_directory"
   echo 'You can overwrite this using environment variable $GIST_HOME'
