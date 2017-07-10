@@ -62,7 +62,7 @@ END
 }
 
 main() {
-gisthome=${GIST_HOME:=$(git config --get gist.home)}
+gisthome=${GIST_HOME:=$(git config --global --path --get gist.home)}
 if test -f $HOME/.gist; then
   github_oauth_token=$(cat $HOME/.gist)
 else
@@ -88,10 +88,10 @@ fetchlist() {
     if test -f $gisthome/gists.list; then
       mv $gisthome/gists.list $gisthome/gists.list.backup
     fi
-    curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' > $gisthome/gists.list.dirty
+    curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' | jq . > $gisthome/gists.list.dirty
     for i in $(seq 2 100000); do
       if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
-        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" >> $gisthome/gists.list.dirty
+        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' >> $gisthome/gists.list.dirty
       else
         break
       fi
@@ -195,6 +195,7 @@ init() {
   echo 'Where do you want to store local copies of your gists?'
   read -p 'Enter full path to the directory: ' gist_store_directory
   git config --global gist.home $gist_store_directory
+  gist_store_directory=$(git config --global --path --get gist.home)
   mkdir -p $gist_store_directory/tree $gist_store_directory/repo
   echo "Your gists will be stored at $gist_store_directory"
   echo 'You can overwrite this using environment variable $GIST_HOME'
