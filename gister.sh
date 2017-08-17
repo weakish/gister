@@ -84,7 +84,6 @@ esac
 }
 
 fetchlist() {
-    echo 'I can only fetch up to 10 million gists for you.'
     if test -f $gisthome/gists.list; then
       mv $gisthome/gists.list $gisthome/gists.list.backup
     fi
@@ -93,6 +92,9 @@ fetchlist() {
       if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
         curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' >> $gisthome/gists.list.dirty
       else
+        if [ $i -eq 100000 ]; then
+          echo 'I can only fetch up to 10 million gists for you.'
+        fi
         break
       fi
     done
