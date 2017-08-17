@@ -283,7 +283,7 @@ mark_deleted_gists() {
 check() {
   cd $gisthome/tree
   for d in [0-9a-f]*; do # excluding deleted gists
-    cd $d
+    cd "$d" > /dev/null
     if (is_dirty); then
       echo "DIRTY $d"
     fi
