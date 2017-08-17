@@ -230,6 +230,14 @@ sync() {
   update_csearch_index
 }
 
+is_dirty() {
+  if [ $(git status --porcelain | wc -l) -eq 0 ]; then
+    return 1 # clean
+  else
+    return 0 # dirty
+  fi
+}
+
 sync_gist() {
   local gist_id=$1
   local gist_updated_at=$2
@@ -247,10 +255,10 @@ sync_gist() {
       if (which legit > /dev/null); then
         legit sync > /dev/null
       else
-        if [ $(git status --porcelain | wc -l) -eq 0 ]; then # clean
-          git pull > /dev/null && git push > /dev/null
-        else # dirty
+        if (is_dirty); then
           echo "DIRTY $gist_id"
+        else
+          git pull > /dev/null && git push > /dev/null
         fi
       fi
     fi
