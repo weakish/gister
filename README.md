@@ -74,15 +74,6 @@ To uninstall:
 ; make uninstall
 ```
 
-### With rake
-
-    git clone https://github.com/weakish/gister.git
-    cd gister
-    sudo rake install
-
-If you want to install `gister` to a place other than `/usr`, you can use `sudo rake install[prefix]` instead, e.g. `sudo rake install[/usr/local]`.
-
-
 Usage
 -----
 
