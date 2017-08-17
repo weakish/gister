@@ -58,6 +58,7 @@ clone the gist repo and put the gistid to clipborad.
 `gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands,
 e.g. `gister descrption -P` will work.
 
+`gister check` reports all dirty (contaning uncommited changes) gist repositories.
 END
 }
 
@@ -72,6 +73,7 @@ fi
 set -e
 
 case $1 in
+    check)                check;;
     fetchall)             fetchall;;
     help|-h|--help)       help;;
     init)                 init;;
@@ -278,5 +280,15 @@ mark_deleted_gists() {
   done
 }
 
+check() {
+  cd $gisthome/tree
+  for d in [^_]*; do # excluding deleted gists
+    cd $d
+    if (is_dirty); then
+      echo "DIRTY $d"
+    fi
+    cd $gisthome/tree
+  done
+}
 
 main "$@"
