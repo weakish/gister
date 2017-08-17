@@ -137,4 +137,6 @@ Storage
 Contributing
 ------------
 
-Fork and/or send pull requests or issues on github: https://github.com/weakish/gister
+Send pull requests or issues at:
+
+https://github.com/weakish/gister
