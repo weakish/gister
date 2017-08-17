@@ -24,7 +24,6 @@ Dependencies
 - curl
 - git
 - [gist.rb][gist]
-- [csearch](https://github.com/google/codesearch) (optional)
 - [jq](http://stedolan.github.io/jq/)
 
 For Linux, BSD, etc, you also need `xclip` or `xsel`.
@@ -37,6 +36,33 @@ Mac OS X users also need GNU versions of `sed` and `date`, a.k.a `gsed` and
 Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting xsel users in previous versions][151].
 
 [151]: https://github.com/defunkt/gist/pull/151
+
+### Optional Dependencies
+
+- [csearch](https://github.com/google/codesearch)
+
+    To search gists on your local machine.
+    If not available, fallbacks to `grep`.
+
+- [legit](https://github.com/kennethreitz/legit)
+
+    If available, invokes `legit sync` to sync gist repository.
+    Legit will stash, fetch, rebase/merge, push, and unstash if necessary.
+
+    The `develop` branch of legit allows configuration for merge policy:
+
+        * The default smart merge (rebase when suitable)
+        * Always merge, never rebase (since [21bb7ed])
+        * Always rebase, never merge (since [252b1eb])
+        * Fast forward merge only (since [4782928])
+
+    If legit is not available,
+    invokes `git pull & git push` for clean gist repositories,
+    and reports `DIRTY $gist_id` for dirty gist repositories.
+
+[21bb7ed]: https://github.com/kennethreitz/legit/commit/21bb7edd081f9e47abec9b970b32f2814104d298
+[252b1eb]: https://github.com/kennethreitz/legit/commit/252b1eb2cd1c0a8f223fa8022ed37752bd5d6cec
+[4782928]: https://github.com/kennethreitz/legit/commit/478292899831c1da478490970bc5d4f66d117510
 
 
 Install

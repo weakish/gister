@@ -7,10 +7,11 @@
 # gist.rb
 # curl
 # git
-# csearch (optional)
 # jq
 # xclip|xsel|pbpaste|cygutils-extra
 # gsed/gdate on Mac OS X
+# csearch (optional)
+# legit (optional)
 
 ## Ref:
 # github API: https://develop.github.com/v3/
@@ -243,10 +244,14 @@ sync_gist() {
     if test $time_difference_abs -le 6; then
       echo "[x] $gist_id"
     else
-      if [ $(git status --porcelain | wc -l) -eq 0 ]; then # clean
-        git pull && git push
-      else # dirty
-        echo "DIRTY $gist_id"
+      if (which legit > /dev/null); then
+        legit sync
+      else
+        if [ $(git status --porcelain | wc -l) -eq 0 ]; then # clean
+          git pull && git push
+        else # dirty
+          echo "DIRTY $gist_id"
+        fi
       fi
     fi
   else
