@@ -74,27 +74,31 @@ Install
 ; basher install weakish/gister
 ```
 
-Require [basher][] version: `>=39875bc`.
+Requires [basher][] version: `>=39875bc`.
 
 [basher]: https://github.com/basherpm/basher
+
+To uninstall:
+
+```sh
+; basher uninstall weakish/gister
+```
 
 ### With make
 
     git clone https://github.com/weakish/gister.git
     cd gister
-    make
+    make install
 
 - Edit `config.mk` if you do not want to install it to `/usr/local`.
 - Compatible with both GNU and BSD make.
 
-### With rake
+To uninstall:
 
-    git clone https://github.com/weakish/gister.git
-    cd gister
-    sudo rake install
-
-If you want to install `gister` to a place other than `/usr`, you can use `sudo rake install[prefix]` instead, e.g. `sudo rake install[/usr/local]`.
-
+```sh
+; cd gister
+; make uninstall
+```
 
 Usage
 -----
@@ -159,4 +163,6 @@ Storage
 Contributing
 ------------
 
-Fork and/or send pull requests or issues on github: https://github.com/weakish/gister
+Send pull requests or issues at:
+
+https://github.com/weakish/gister
