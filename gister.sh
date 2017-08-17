@@ -247,10 +247,10 @@ sync_gist() {
       echo "[x] $gist_id"
     else
       if (which legit > /dev/null); then
-        legit sync
+        legit sync > /dev/null
       else
         if [ $(git status --porcelain | wc -l) -eq 0 ]; then # clean
-          git pull && git push
+          git pull > /dev/null && git push > /dev/null
         else # dirty
           echo "DIRTY $gist_id"
         fi
