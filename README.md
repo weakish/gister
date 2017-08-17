@@ -48,7 +48,7 @@ Install
 ; basher install weakish/gister
 ```
 
-Require [basher][] version: `>=39875bc`.
+Requires [basher][] version: `>=39875bc`.
 
 [basher]: https://github.com/basherpm/basher
 
