@@ -52,14 +52,27 @@ Requires [basher][] version: `>=39875bc`.
 
 [basher]: https://github.com/basherpm/basher
 
+To uninstall:
+
+```sh
+; basher uninstall weakish/gister
+```
+
 ### With make
 
     git clone https://github.com/weakish/gister.git
     cd gister
-    make
+    make install
 
 - Edit `config.mk` if you do not want to install it to `/usr/local`.
 - Compatible with both GNU and BSD make.
+
+To uninstall:
+
+```sh
+; cd gister
+; make uninstall
+```
 
 ### With rake
 
