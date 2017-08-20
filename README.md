@@ -120,7 +120,7 @@ This will create the gist with the provided description, clone the gist repo, an
 
 Note: you must provide gist description, otherwise `gister` will fail.
 
-Hint: `gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands, e.g. `gister descrption -P` will work.
+Hint: `gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands, e.g. `gister description -P` will work.
 
 If you've edited your gists at `gist.github.com` or local machine, without pull/push changesets, you can sync all your gists via `gister sync`.
 
