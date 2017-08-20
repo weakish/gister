@@ -22,7 +22,7 @@
 # jq: http://stedolan.github.io/jq/
 
 
-SEMVER='v2.1.2'
+SEMVER='v2.2.0'
 
 # Mac OS X compatibility
 if [ "$(uname)" = "Darwin" ]; then
