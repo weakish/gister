@@ -135,6 +135,19 @@ Search all of your gists:
 If `codesearch` is installed, `regexp` is RE2 (nearly PCRE).
 Otherwise it is ERE, a.k.a `grep -E`.
 
+### import
+
+Import a gist (available at local) to a git repository,
+with its full history:
+
+```sh
+; cd git-repo-root
+; gister import gist_id sub_directory_name branch_name
+```
+
+The content of the gist will be imported to `sub_directory_name`,
+and the merging message will uses `branch_name`.
+
 ### migrate
 
 From version 1.0.0, `gister` uses a different storage structure.

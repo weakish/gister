@@ -41,12 +41,13 @@ gister [ACTION]
 gister description file.txt [...]
 
 Actions:
-sync            sync all your gists
-search regexp   code search (command line)
-check           report dirty gist repositories
-migrate         migrate from <1.0.0
-version         version
-help            this help page
+sync                   sync all your gists
+search regexp          code search (command line)
+check                  report dirty gist repositories
+import id dir branch   import a gist to other git repo
+migrate                migrate from <1.0.0
+version                version
+help                   this help page
 
 Usage:
 
@@ -60,6 +61,9 @@ clone the gist repo and put the gistid to clipborad.
 e.g. `gister descrption -P` will work.
 
 `gister check` reports all dirty (contaning uncommited changes) gist repositories.
+
+Within the root directory of a git repository,
+`gister import id dir branch_name` imports a gist (id) into a subdirectory (dir).
 END
 }
 
@@ -77,6 +81,7 @@ case $1 in
     check)                check;;
     fetchall)             fetchall;;
     help|-h|--help)       help;;
+    import)               import $2 $3 $4;;
     init)                 init;;
     migrate)              migrate;;
     search)               code_search $2;;
@@ -190,6 +195,24 @@ code_search() {
   else
     grep -r -E "$1" $gisthome/tree
   fi
+}
+
+import() {
+  local gistid subdirectory branch_name
+  gistid="$1"
+  subdirectory="$2"
+  branch_name="$3"
+
+  git remote add "$gistid" "$gisthome/tree/$gistid"
+  git fetch "$gistid"
+  git checkout -b "$branch_name" "$gistid/master"
+  mkdir "$subdirectory"
+  git mv -k * "$subdirectory"
+  git commit -m "Import from gist $gistid"
+  git checkout master
+  git merge "$branch_name" --allow-unrelated-histories
+  git remote rm "$gistid"
+  git branch -d "$branch_name"
 }
 
 init() {
