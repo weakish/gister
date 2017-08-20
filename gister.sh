@@ -85,14 +85,14 @@ case $1 in
 esac
 }
 
-fetchlist() {
-    if test -f $gisthome/gists.list; then
-      mv $gisthome/gists.list $gisthome/gists.list.backup
+fetchgist() {
+    if test -f $gisthome/$1.list; then
+      mv $gisthome/$1.list $gisthome/$1.list.backup
     fi
-    curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=100' | jq . > $gisthome/gists.list.dirty
+    curl -s -H "Authorization: token $github_oauth_token" "https://api.github.com/$2?per_page=100" | jq . > $gisthome/$1.list.dirty
     for i in $(seq 2 100000); do
-      if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
-        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/gists?page=$i&per_page=100" | jq '.' >> $gisthome/gists.list.dirty
+      if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/$2?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
+        curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/$2?page=$i&per_page=100" | jq '.' >> $gisthome/$1.list.dirty
       else
         if [ $i -eq 100000 ]; then
           echo 'I can only fetch up to 10 million gists for you.'
@@ -103,7 +103,7 @@ fetchlist() {
 
     # If you have more than 100 gists, gists.list will contain more than one array.
     # Thus we need to combine them into one.
-    cat $gisthome/gists.list.dirty |
+    cat $gisthome/$1.list.dirty |
     # delete all `[`s
     $SED -r '/^\[$/d' |
     # recover the first `[`
@@ -113,9 +113,12 @@ fetchlist() {
     # delete `,` on the last line (JSON does not permit this!)
     $SED -r '$d' |
     # recover the last `]`
-    $SED -r '$ a ]' > $gisthome/gists.list
+    $SED -r '$ a ]' > $gisthome/$1.list
 }
 
+fetchlist() {
+  fetchgist gists gists
+}
 
 fetchall() {
   echo '`fetchall` is deprecated. Use `gister sync` instead.'
