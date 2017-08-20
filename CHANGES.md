@@ -1,10 +1,36 @@
 gister changes
 ==============
 
-v2.2.0 (future)
-----------------
+v2.3.0 (2017-08-20)
+-------------------
+
+### Features
+
+- New command `check` to report dirty repositories.
+- `sync` also sync starred gists.
+- Use legit to do smart merge if available.
+- Less verbose output.
+
+### Bugs
+
+- gist home path expansion
+
+### Other
+
+- Replace Rake with Makefile.
+
+v2.2.0 (2016-11-16)
+-------------------
+
+### Features
 
 - Fall back to `grep` if codesearch is not available.
+- Skip sync dirty repos, warn instead.
+- `sync` now reports non-modified gists.
+
+### Bugs
+
+- `mark_deleted_gists()` did not update `repo/$gist_id/config`.
 
 v2.1.2 (2016-04-20)
 ----------------
