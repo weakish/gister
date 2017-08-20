@@ -58,7 +58,7 @@ Run `gister sync` to sync all your gists (created and starred).
 `gister description file.txt ...`  will create the gist with the provided description,
 clone the gist repo and put the gistid to clipborad.
 `gister` will pass all arguments to gist as `gist -c -o -d description ...`, so you can use other options that gist understands,
-e.g. `gister descrption -P` will work.
+e.g. `gister description -P` will work.
 
 `gister check` reports all dirty (contaning uncommited changes) gist repositories.
 
