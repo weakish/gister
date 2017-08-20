@@ -118,6 +118,7 @@ fetchgist() {
 
 fetchlist() {
   fetchgist gists gists
+  fetchgist starred "gists/starred"
 }
 
 fetchall() {
@@ -222,15 +223,35 @@ migrate() {
 }
 
 
-sync() {
-  fetchlist
+sync_gists() {
   cd $gisthome
   local gists_list_length=$(cat $gisthome/gists.list | jq '. | length')
   for i in $(seq 0 $(($gists_list_length - 1))); do
     local gist_id=$(cat $gisthome/gists.list | jq --raw-output ".[$i].id")
     local gist_updated_at=$(cat $gisthome/gists.list | jq --raw-output ".[$i].updated_at")
-    sync_gist $gist_id $gist_updated_at
+    sync_gist $gist_id $gist_updated_at "own"
   done
+}
+
+sync_starred() {
+  cd $gisthome
+  local gists_list_length=$(cat $gisthome/starred.list | jq '. | length')
+  local github_user=$(git config --global github.user)
+  local myself=${github_user:-$(whoami)}
+  for i in $(seq 0 $(($gists_list_length - 1))); do
+    local gist_owner=$(cat $gisthome/starred.list | jq --raw-output ".[$i].owner.login")
+    if [ "$gist_owner" != "$myself" ]; then
+      local gist_id=$(cat $gisthome/starred.list | jq --raw-output ".[$i].id")
+      local gist_updated_at=$(cat $gisthome/starred.list | jq --raw-output ".[$i].updated_at")
+      sync_gist $gist_id $gist_updated_at "starred"
+    fi
+  done
+}
+
+sync() {
+  fetchlist
+  sync_gists
+  sync_starred
   mark_deleted_gists
   update_csearch_index
 }
@@ -246,6 +267,7 @@ is_dirty() {
 sync_gist() {
   local gist_id=$1
   local gist_updated_at=$2
+  local gist_type=$3
   echo "syncing $gist_id"
   if test -d $gisthome/tree/$gist_id; then
     cd $gisthome/tree/$gist_id
@@ -257,14 +279,25 @@ sync_gist() {
     local time_difference_abs=$(echo $time_difference | tr -d -)
     # Local machine's and GitHub's time may differ slightly.
     if test $time_difference_abs -gt 1; then
-      if (which legit > /dev/null); then
-        legit sync > /dev/null
-      else
+      if [ $gist_type = "own" ]; then
+        if (which legit > /dev/null); then
+          legit sync > /dev/null
+        else
+          if (is_dirty); then
+            echo "DIRTY $gist_id"
+          else
+            git pull > /dev/null && git push > /dev/null
+          fi
+        fi
+      elif [ $gist_type = "starred" ]; then
         if (is_dirty); then
           echo "DIRTY $gist_id"
         else
-          git pull > /dev/null && git push > /dev/null
+          git pull > /dev/null
         fi
+      else
+        echo "You have encountered a bug."
+        echo "Please report it at https://github.com/weakish/gister/issues"
       fi
     fi
   else
@@ -276,7 +309,8 @@ sync_gist() {
 mark_deleted_gists() {
   cd $gisthome/tree
   for gist_id in [0-9a-f]*; do
-    if !  grep -F -q '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/gists.list; then
+    if ! (grep -F -q '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/gists.list ||
+          grep -F -q '"git_pull_url": "https://gist.github.com/'$gist_id'.git"' $gisthome/starred.list); then
       mv $gist_id _$gist_id
       sed -i -r "s#tree/$argv[1]#tree/_$gist_id#" $gisthome/repo/$gist_id/config
     fi
