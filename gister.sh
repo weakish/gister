@@ -22,7 +22,7 @@
 # jq: http://stedolan.github.io/jq/
 
 
-SEMVER='v2.2.0'
+SEMVER='v2.3.0'
 
 # Mac OS X compatibility
 if [ "$(uname)" = "Darwin" ]; then
@@ -51,7 +51,7 @@ Usage:
 
 `gister init` will associate your gists with your GitHub account and ask you where to store local copies of your gist.
 
-Run `gister sync` to sync all your gists.
+Run `gister sync` to sync all your gists (created and starred).
 
 `gister description file.txt ...`  will create the gist with the provided description,
 clone the gist repo and put the gistid to clipborad.
