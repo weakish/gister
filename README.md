@@ -14,12 +14,11 @@ After publishing files to gist.github.com, this tool will:
 [gist]: https://github.com/defunkt/gist
 [defunkt]: https://github.com/defunkt
 
-You can also use `gister` to sync your gists between gist.github.com and your machine.
-
+You can also use `gister` to sync your gists (created and starred)
+between gist.github.com and your machine.
 
 Dependencies
 ------------
-
 
 - curl
 - git
@@ -107,12 +106,9 @@ Usage
 
 For the first time, you need to run `gister init` to associate your GitHub account and configure the directory to store local copies of your gists.
 
-After that, you may run `gister sync` to fetch all your gists to local.
+After that, you may run `gister sync` to fetch all your gists (created and starred) to local.
 
-Warn: `sync` can only fetch up to 10 million gists for you. If you have more than 10 million gists, you need to modify the source of `gister` yourself.
-
-Also note that `gister sync` will not sync dirty repos.
-It will gives a warning on the stdout.
+Warn: `sync` can only fetch up to 10 million gists for you. If you have more than 10 million gists, you need to modify the source of `gister` to lift the limit.
 
 ### publish
 
