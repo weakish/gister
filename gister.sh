@@ -44,7 +44,7 @@ Actions:
 sync                   sync all your gists
 search regexp          code search (command line)
 check                  report dirty gist repositories
-import id dir branch   import a gist to other git repo
+export id dir branch   export a gist to other git repo
 migrate                migrate from <1.0.0
 version                version
 help                   this help page
@@ -63,7 +63,7 @@ e.g. `gister description -P` will work.
 `gister check` reports all dirty (containing uncommited changes) gist repositories.
 
 Within the root directory of a git repository,
-`gister import id dir branch_name` imports a gist (id) into a subdirectory (dir).
+`gister export id dir branch_name` exports a gist (id) into a subdirectory (dir).
 END
 }
 
@@ -81,7 +81,7 @@ case $1 in
     check)                check;;
     fetchall)             fetchall;;
     help|-h|--help)       help;;
-    import)               import $2 $3 $4;;
+    export)               export_to $2 $3 $4;;
     init)                 init;;
     migrate)              migrate;;
     search)               code_search $2;;
@@ -197,7 +197,7 @@ code_search() {
   fi
 }
 
-import() {
+export_to() {
   local gistid subdirectory branch_name
   gistid="$1"
   subdirectory="$2"

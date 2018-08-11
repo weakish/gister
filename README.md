@@ -137,15 +137,15 @@ Otherwise it is ERE, a.k.a `grep -E`.
 
 ### import
 
-Import a gist (available at local) to a git repository,
+Export a gist (available at local) to a git repository,
 with its full history:
 
 ```sh
 ; cd git-repo-root
-; gister import gist_id sub_directory_name branch_name
+; gister export gist_id sub_directory_name branch_name
 ```
 
-The content of the gist will be imported to `sub_directory_name`,
+The content of the gist will be exported to `sub_directory_name`,
 and the merging message will uses `branch_name`.
 
 ### migrate
