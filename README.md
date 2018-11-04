@@ -135,7 +135,7 @@ Search all of your gists:
 If `codesearch` is installed, `regexp` is RE2 (nearly PCRE).
 Otherwise it is ERE, a.k.a `grep -E`.
 
-### import
+### export
 
 Export a gist (available at local) to a git repository,
 with its full history:
