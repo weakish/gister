@@ -67,6 +67,9 @@ Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting x
 Install
 -------
 
+Note that the following instructions only install gister itself.
+You need to install its dependencies mentioned before yourself.
+
 ### With basher
 
 ```sh
