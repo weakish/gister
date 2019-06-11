@@ -181,7 +181,12 @@ publish() {
       curl -s -H "Authorization: token $github_oauth_token" 'https://api.github.com/gists?per_page=1' >> gists.list
       # clone
       cd $gisthome/tree
-      git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
+
+      if [ -z $GISTER_USE_HTTPS ]; then
+        git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
+      else
+        git clone https://gist.github.com/$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
+      fi
       # code search index
       update_csearch_index
     fi
@@ -326,7 +331,11 @@ sync_gist() {
     fi
   else
     cd $gisthome/tree
-    git clone --separate-git-dir $gisthome/repo/$gist_id git@gist.github.com:$gist_id.git
+    if [ -z $GISTER_USE_HTTPS ]; then
+      git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
+    else
+      git clone https://gist.github.com/$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
+    fi
   fi
 }
 
