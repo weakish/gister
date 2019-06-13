@@ -312,8 +312,8 @@ sync_gist() {
               echo "DIRTY $gist_id"
             else
               echo "DIRTY $gist_id, auto committing"
-              git add . && git commit -m "automated update"
-              git pull > /dev/null && git push > /dev/null
+              git add . && git commit -m "automated update" &&
+                git pull > /dev/null && git push > /dev/null
             fi
           else
             git pull > /dev/null && git push > /dev/null
