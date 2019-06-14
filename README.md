@@ -113,6 +113,12 @@ After that, you may run `gister sync` to fetch all your gists (created and starr
 
 Warn: `sync` can only fetch up to 10 million gists for you. If you have more than 10 million gists, you need to modify the source of `gister` to lift the limit.
 
+### Configuration
+
+`GISTER_USE_HTTPS`: If you need to use https for some reason, set the env var `GISTER_USE_HTTPS`, but please note this isn't necessarily more secure than ssh, it's just a different option in case your network blocks all traffic other than http/s.
+
+`GISTER_AUTO_COMMIT`: If you'd like the `sync` command to automatically commit any local changes you've made before pulling and pushing to gist.github.com, set the `GISTER_AUTO_COMMIT` env var to anything.
+
 ### publish
 
 Whenever you want to publish a gist, just use
