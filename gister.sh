@@ -1,27 +1,5 @@
 #!/bin/sh
 
-### a command line tool to access https://gist.github.com
-
-## by Jakukyo Friel <weakish@gmail.com> and licensed under Apache v2.
-## Depends:
-# gist.rb
-# curl
-# git
-# jq
-# xclip|xsel|pbpaste|cygutils-extra
-# gsed/gdate on Mac OS X
-# csearch (optional)
-# legit (optional)
-
-## Ref:
-# github API: https://develop.github.com/v3/
-# gist API: https://developer.github.com/v3/gists/
-# gist.rb: https://github.com/defunkt/gist
-# gist clients: https://gist.github.com/370230
-# csearch: https://github.com/google/codesearch
-# jq: http://stedolan.github.io/jq/
-
-
 SEMVER='v2.4.0'
 
 # Mac OS X compatibility
