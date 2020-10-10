@@ -56,13 +56,13 @@ Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting x
         * Fast forward merge only (since [4782928])
 
     If legit is not available,
-    invokes `git pull & git push` for clean gist repositories,
-    and reports `DIRTY $gist_id` for dirty gist repositories.
+    gister will report dirty gist repositories (`DIRTY $gist_id`)
+    when the environment variable `GISTER_AUTO_COMMIT` does not exist,
+    and will commit files automatically when `GISTER_AUTO_COMMIT` exists.
 
 [21bb7ed]: https://github.com/kennethreitz/legit/commit/21bb7edd081f9e47abec9b970b32f2814104d298
 [252b1eb]: https://github.com/kennethreitz/legit/commit/252b1eb2cd1c0a8f223fa8022ed37752bd5d6cec
 [4782928]: https://github.com/kennethreitz/legit/commit/478292899831c1da478490970bc5d4f66d117510
-
 
 Install
 -------
@@ -155,7 +155,7 @@ with its full history:
 ```
 
 The content of the gist will be exported to `sub_directory_name`,
-and the merging message will uses `branch_name`.
+and the merging message will use `branch_name`.
 
 ### migrate
 
