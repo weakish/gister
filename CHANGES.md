@@ -1,6 +1,15 @@
 gister changes
 ==============
 
+v2.4.0 (2019-06-14)
+-------------------
+
+### Features
+
+- New command `export` to export a gist into an existing git repo, with its history.
+- `sync` also supports cloning repository with https protocol (controlled by an environment variable), in addition to ssh.
+- `sync` can auto commit changes if the gist repo is dirty, controlled by an environment variable.
+
 v2.3.0 (2017-08-20)
 -------------------
 
