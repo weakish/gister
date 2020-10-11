@@ -70,24 +70,6 @@ Install
 Note that the following instructions only install gister itself.
 You need to install its dependencies mentioned before yourself.
 
-### With basher
-
-```sh
-; basher install weakish/gister
-```
-
-Requires [basher][] version: `>=39875bc`.
-
-[basher]: https://github.com/basherpm/basher
-
-To uninstall:
-
-```sh
-; basher uninstall weakish/gister
-```
-
-### With make
-
     git clone https://github.com/weakish/gister.git
     cd gister
     make install
@@ -101,6 +83,10 @@ To uninstall:
 ; cd gister
 ; make uninstall
 ```
+
+You can also install/uninstall gister via [basher].
+
+[basher]: https://github.com/basherpm/basher
 
 Usage
 -----

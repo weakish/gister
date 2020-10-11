@@ -5,7 +5,7 @@ include config.mk
 install:
 	@echo Installing to to ${PREFIX}/bin ...
 	@mkdir -p ${PREFIX}/bin
-	@cp -f gister.sh ${PREFIX}/bin/gister
+	@cp -f bin/gister ${PREFIX}/bin/gister
 	@chmod 755 ${PREFIX}/bin/gister
 
 uninstall:
