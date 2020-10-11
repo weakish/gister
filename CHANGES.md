@@ -1,6 +1,13 @@
 gister changes
 ==============
 
+v2.4.1 (WIP)
+------------
+
+### Other
+
+- Fix wrong version number reported by `gister version`.
+
 v2.4.0 (2019-06-14)
 -------------------
 

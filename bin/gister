@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SEMVER='v2.4.0'
+SEMVER='v2.4.1'
 
 # Mac OS X compatibility
 if [ "$(uname)" = "Darwin" ]; then
