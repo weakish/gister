@@ -425,6 +425,7 @@ fetchgist() {
       mv $gisthome/$1.list $gisthome/$1.list.backup
     fi
     curl -s -H "Authorization: token $github_oauth_token" "https://api.github.com/$2?per_page=100" | jq . > $gisthome/$1.list.dirty
+    [ "$(cat "$gisthome/$1.list.dirty" | jq -r .message)" = 'Bad credentials' ] && { echo "Bad Credentials; clear your credentials and re-init"; exit 1; }
     for i in $(seq 2 100000); do
       if ! (curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/$2?page=$i&per_page=100" | jq '.' | grep --silent '^\[]$'); then
         curl -s -H "Authorization: token $github_oauth_token"  "https://api.github.com/$2?page=$i&per_page=100" | jq '.' >> $gisthome/$1.list.dirty
