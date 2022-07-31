@@ -170,3 +170,8 @@ Contributing
 Send pull requests or issues at:
 
 https://github.com/weakish/gister
+
+### Tips
+
+Setting environment variable `GISTER_DEBUG` to `true` (or any non-empty string) will enable debug mode (`set -x`).
+
