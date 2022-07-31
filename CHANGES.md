@@ -1,11 +1,12 @@
 gister changes
 ==============
 
-v2.4.1 (WIP)
-------------
+v2.4.1
+------
 
 ### Other
 
+- When receiving 'Bad credentials' error message from the API, stop and notify user to re-init.
 - Fix wrong version number reported by `gister version`.
 
 v2.4.0 (2019-06-14)
