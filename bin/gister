@@ -11,6 +11,13 @@ else
   DATE=date
 fi
 
+# Ubuntu compatibility
+if type gist > /dev/null; then
+  GIST=gist
+else
+  GIST=gist-paste
+fi
+
 help() {
 cat<<'END'
 gister  -- shell script to access https://gist.github.com
@@ -340,7 +347,7 @@ publish() {
     else
       gist_argv=$@
       # post gist and open it in browser
-      gist -c -d "$gist_description" $gist_argv
+      $GIST -c -d "$gist_description" $gist_argv
       # record the id
       local gist_id=$(get_paste | grep -o -E '/[0-9a-f]+$' | $SED -e 's/\///')
       # add a record
@@ -392,7 +399,7 @@ init() {
   if ! test -f $HOME/.gist; then
     echo 'We need your username and password to get an OAuth2 token (with the "gist" permission).'
     echo 'We will not store your password.'
-    gist --login
+    $GIST --login
     echo 'Your GitHub OAuth2 token is stored at ~/.gist'
   fi
   # store
