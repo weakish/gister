@@ -356,6 +356,10 @@ Send pull requests or issues at:
 
 https://github.com/weakish/gister
 
+### Tips
+
+Setting environment variable `GISTER_DEBUG` to `true` (or any non-empty string) will enable debug mode (`set -x`).
+
 ```sh
 ; cd git-repo-root
 ; gister export gist_id sub_directory_name branch_name
@@ -404,6 +408,10 @@ else
 fi
 
 set -e
+
+if test -n "$GISTER_DEBUG"; then
+  set -x
+fi
 
 case $1 in
     check)                check;;
