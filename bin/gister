@@ -467,6 +467,21 @@ is_dirty() {
   fi
 }
 
+retry_three_times() {
+  local retry_command="$1"
+
+  # fibonacci backoff
+  local first_retry="$retry_command || (sleep 2; $retry_command)"
+  local second_retry="($first_retry) || (sleep 8; $retry_command)"
+  local third_retry="($second_retry) || (sleep 34; $retry_command)"
+
+  eval "$third_retry"
+}
+
+retry_git() {
+  retry_three_times "git $1 >/dev/null"
+}
+
 sync_gist() {
   local gist_id=$1
   local gist_updated_at=$2
@@ -476,6 +491,7 @@ sync_gist() {
     cd $gisthome/tree/$gist_id
     # Compare update time to skip already up to date repos.
     # This will speed sync on slow network connection.
+    # This may contain a bug if the gist is updated by someone else, e.g. forking.
     local last_commit_unixtime=$(git log -1 --pretty=format:%ct)
     local last_updated_unixtime=$($DATE --date="$gist_updated_at" +"%s")
     local time_difference=$(($last_commit_unixtime - $last_updated_unixtime))
@@ -492,21 +508,25 @@ sync_gist() {
             else
               echo "DIRTY $gist_id, auto committing"
               git add . && git commit -m "automated update" &&
-                git pull > /dev/null && git push > /dev/null
+                retry_git pull && retry_git push > /dev/null
             fi
           else
-            git pull > /dev/null && git push > /dev/null
+            retry_git pull && retry_git push > /dev/null
           fi
         fi
       elif [ $gist_type = "starred" ]; then
         if (is_dirty); then
           echo "DIRTY $gist_id"
         else
-          git pull > /dev/null
+          retry_git pull
         fi
       else
         echo "You have encountered a bug."
         echo "Please report it at https://github.com/weakish/gister/issues"
+      fi
+    else
+      if [ -n $GISTER_DEBUG ]; then
+        echo "SKIPPED $gist_id (up to date)"
       fi
     fi
   else
