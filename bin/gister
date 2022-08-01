@@ -98,7 +98,7 @@ Note: `xsel` users should use `gist.rb` v4.1.2+, since there is [a bug bitting x
 - [csearch](https://github.com/google/codesearch)
 
     To search gists on your local machine.
-    If not available, fallbacks to `grep`.
+    If not available, gister fallbacks to `grep`.
 
 - [legit](https://github.com/kennethreitz/legit)
 
