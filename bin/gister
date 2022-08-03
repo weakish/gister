@@ -487,7 +487,7 @@ sync_gist() {
   local gist_updated_at=$2
   local gist_type=$3
   echo "syncing $gist_id"
-  if test -d $gisthome/tree/$gist_id; then
+  if [ \( -d $gisthome/tree/$gist_id \) -a \( -d $gisthome/repo/$gist_id \) ]; then
     cd $gisthome/tree/$gist_id
     # Compare update time to skip already up to date repos.
     # This will speed sync on slow network connection.
@@ -531,6 +531,10 @@ sync_gist() {
     fi
   else
     cd $gisthome/tree
+    # Incase someone deleted the working directory but left the repo directory
+    # or vice versa.
+    rm -rf $gisthome/tree/$gist_id
+    rm -rf $gisthome/repo/$gist_id
     if [ -z $GISTER_USE_HTTPS ]; then
       git clone git@gist.github.com:$gist_id.git --separate-git-dir $gisthome/repo/$gist_id
     else
