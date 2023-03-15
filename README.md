@@ -175,3 +175,8 @@ https://github.com/weakish/gister
 
 Setting environment variable `GISTER_DEBUG` to `true` (or any non-empty string) will enable debug mode (`set -x`).
 
+Contributors
+------------
+
+![contributors avatar list made with contrib.rocks](https://contrib.rocks/image?repo=weakish/gister)
+
