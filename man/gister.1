@@ -1,0 +1,34 @@
+.Dd January 22, 2024
+.Dt GISTER 1
+.Os
+.Sh NAME
+.Nm gister
+.Nd "sync GitHub gists to local machine"
+.Sh SYNOPSIS
+.Nm
+.Fl h
+.Nm
+.Cm init
+.Nm
+.Cm sync
+.Nm
+.Cm search
+.Ar pattern
+.Nm
+.Cm export
+.Ar gist_id
+.Ar sub_directory_name
+.Ar branch_name
+.Sh DESCRIPTION
+Run
+.Nm
+.Fl h
+for usage description.
+.Sh BUGS
+.Nm
+cannot sync more than ten million gists.
+To lift the limit, you need to modify the source code of
+.Nm .
+.Pp
+If you find other bugs, please report them at
+.Lk https://github.com/weakish/gister/issues
