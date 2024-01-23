@@ -74,14 +74,28 @@ You need to install its dependencies mentioned before yourself.
     cd gister
     make install
 
-- Edit `config.mk` if you do not want to install it to `/usr/local`.
-- Compatible with both GNU and BSD make.
+By default gister will be installed into `/usr/local/bin/gister`.
+Change `PREFIX` to install r3c to another directory.
+For example:
+
+```sh
+make PREFIX=~/.local install
+```
+
+The Makefile is compatible with both GNU and BSD make.
 
 To uninstall:
 
 ```sh
 ; cd gister
 ; make uninstall
+```
+
+If you have changed the `PREFIX` variable when installing, you need to use the same value when uninstalling.
+For example:
+
+```sh
+make PREFIX=~/.local uninstall
 ```
 
 You can also install/uninstall gister via [basher].

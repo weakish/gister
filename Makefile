@@ -1,13 +1,11 @@
-# Compatible with GNU make and BSD make.
+NAME=gister
 
-include config.mk
+PREFIX?=/usr/local
+BINDIR=${PREFIX}/bin
 
-install:
-	@echo Installing to ${PREFIX}/bin ...
-	@mkdir -p ${PREFIX}/bin
-	@cp -f bin/gister ${PREFIX}/bin/gister
-	@chmod 755 ${PREFIX}/bin/gister
+install: ${NAME}
+	@mkdir -p ${BINDIR}
+	@install -c -m 755 bin/${NAME}  ${BINDIR}/${NAME}
 
 uninstall:
-	@echo Uninstalling from ${PREFIX}/bin ...
-	@rm -f ${PREFIX}/bin/gister
+	@rm -f ${BINDIR}/${NAME}
